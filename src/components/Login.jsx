@@ -23,7 +23,6 @@ export default function Login({ onLoginExitoso }) {
       return
     }
 
-    // Traer los datos del miembro asociado a esta cuenta
     const { data: miembro, error: errorMiembro } = await supabase
       .from('miembro')
       .select('*')
@@ -40,24 +39,28 @@ export default function Login({ onLoginExitoso }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Iniciar sesión</h2>
+    <div className="rtc-auth-page">
+      <div className="rtc-auth-card">
+        <form onSubmit={handleSubmit}>
+          <h2>Iniciar sesión</h2>
 
-      <label>
-        Correo
-        <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
-      </label>
+          <label>
+            Correo
+            <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
+          </label>
 
-      <label>
-        Contraseña
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      </label>
+          <label>
+            Contraseña
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </label>
 
-      <button type="submit" disabled={cargando}>
-        {cargando ? 'Ingresando...' : 'Ingresar'}
-      </button>
+          <button type="submit" disabled={cargando}>
+            {cargando ? 'Ingresando...' : 'Ingresar'}
+          </button>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </form>
+          {error && <p style={{ color: '#C0335A' }}>{error}</p>}
+        </form>
+      </div>
+    </div>
   )
 }
