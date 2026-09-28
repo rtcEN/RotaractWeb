@@ -3,18 +3,25 @@ import AltaMiembro from './AltaMiembro'
 import ListaMiembros from './ListaMiembros'
 import RegistrarAsistencia from './RegistrarAsistencia'
 import Documentos from './Documentos'
+import MiResumen from './Miresumen'
+import MisCuotas from './Miscuotas'
+import MiAsistencia from './Miasistencia'
+import MisPrestamos from './Misprestamos'
 
 const NOMBRES_CALIDAD = { A: 'Aspirante', S: 'Socio', H: 'Honorario' }
 
 export default function Panel({ miembro, onLogout }) {
   const seccionesAdmin = [
     { id: 'inicio', label: 'Inicio' },
-    { id: 'alta', label: 'Dar de alta' },
+    { id: 'alta', label: 'Cargar miembro' },
     { id: 'miembros', label: 'Miembros' },
     { id: 'asistencia', label: 'Eventos y asistencia' },
   ]
   const seccionesSocio = [
     { id: 'inicio', label: 'Inicio' },
+    { id: 'cuotas', label: 'Mis cuotas' },
+    { id: 'asistencia', label: 'Mi asistencia' },
+    { id: 'prestamos', label: 'Préstamos' },
     { id: 'documentos', label: 'Documentos' },
   ]
 
@@ -25,7 +32,7 @@ export default function Panel({ miembro, onLogout }) {
     <div className="rtc-shell">
       <aside className="rtc-sidebar">
         <div className="rtc-brand">
-          <img src="/images/logo.png" alt="Rotaract Encarnación Norte" />
+          <img src="/images/logo2.png" alt="Rotaract Encarnación Norte" />
         </div>
 
         <nav className="rtc-sidebar-nav">
@@ -59,30 +66,29 @@ export default function Panel({ miembro, onLogout }) {
         {seccionActiva === 'inicio' && (
           <div className="rtc-card">
             <p>Correo: {miembro.correo_miembro}</p>
-            {!miembro.es_admin && (
-              <p>Acá vas a ver más adelante tus cuotas y tu asistencia a reuniones y eventos.</p>
-            )}
+            {!miembro.es_admin && <MiResumen miembro={miembro} />}
           </div>
         )}
 
         {miembro.es_admin && seccionActiva === 'alta' && (
-          <div className="rtc-card">
-            <AltaMiembro />
-          </div>
+          <div className="rtc-card"><AltaMiembro /></div>
         )}
-
         {miembro.es_admin && seccionActiva === 'miembros' && (
-          <div className="rtc-card">
-            <ListaMiembros />
-          </div>
+          <div className="rtc-card"><ListaMiembros /></div>
         )}
-
         {miembro.es_admin && seccionActiva === 'asistencia' && (
-          <div className="rtc-card">
-            <RegistrarAsistencia />
-          </div>
+          <div className="rtc-card"><RegistrarAsistencia /></div>
         )}
 
+        {!miembro.es_admin && seccionActiva === 'cuotas' && (
+          <div className="rtc-card"><MisCuotas miembro={miembro} /></div>
+        )}
+        {!miembro.es_admin && seccionActiva === 'asistencia' && (
+          <div className="rtc-card"><MiAsistencia miembro={miembro} /></div>
+        )}
+        {!miembro.es_admin && seccionActiva === 'prestamos' && (
+          <div className="rtc-card"><MisPrestamos miembro={miembro} /></div>
+        )}
         {!miembro.es_admin && seccionActiva === 'documentos' && (
           <div className="rtc-card">
             <Documentos categoria={miembro.calidad === 'A' ? 'aspirante' : 'socio'} />
