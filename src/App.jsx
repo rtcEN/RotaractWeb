@@ -46,7 +46,7 @@ export default function App() {
     <BrowserRouter>
       <header className="rtc-nav">
         <Link to="/" className="rtc-brand">
-          <img src="/images/logo.png" alt="Rotaract Encarnación Norte" />
+          <img src="/images/logo2.png" alt="Rotaract Encarnación Norte" />
         </Link>
         <nav>
           <Link to="/">Inicio</Link>
