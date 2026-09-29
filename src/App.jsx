@@ -43,10 +43,13 @@ export default function App() {
 
   // Páginas públicas: inicio y login, con nav simple arriba.
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <header className="rtc-nav">
         <Link to="/" className="rtc-brand">
-          <img src="/images/logo2.png" alt="Rotaract Encarnación Norte" />
+          <img
+            src={`${import.meta.env.BASE_URL}images/logo.png`}
+            alt="Rotaract Encarnación Norte"
+          />
         </Link>
         <nav>
           <Link to="/">Inicio</Link>
