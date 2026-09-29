@@ -47,7 +47,7 @@ export default function App() {
       <header className="rtc-nav">
         <Link to="/" className="rtc-brand">
           <img
-            src={`${import.meta.env.BASE_URL}images/logo.png`}
+            src={`${import.meta.env.BASE_URL}images/logo2.png`}
             alt="Rotaract Encarnación Norte"
           />
         </Link>
