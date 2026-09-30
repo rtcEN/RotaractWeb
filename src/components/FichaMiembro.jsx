@@ -506,16 +506,6 @@ function agruparCuotasPorPeriodo(cuotas, pagos) {
         }))
 }
 
-function calidadParaMes(historial, mes, miembro) {
-    const periodo = historial.find((h) => h.fecha_desde.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))
-    if (periodo) return periodo.calidad
-    if (historial.length) return null
-
-    const fechaIngreso = miembro.fecha_ingreso || miembro.creado_en?.slice(0, 10)
-    if (fechaIngreso && mes < fechaIngreso.slice(0, 7)) return null
-    return miembro.calidad
-}
-
 function CuotasMiembro({ miembro }) {
     const [cuotas, setCuotas] = useState([])
     const [pagos, setPagos] = useState([])
@@ -529,14 +519,14 @@ function CuotasMiembro({ miembro }) {
         const [cuotasResp, pagosResp, historialResp] = await Promise.all([
             supabase.from('cuotas').select('*').order('fecha_vencimiento'),
             supabase.from('pagos').select('*').eq('id_miembro', miembro.id_miembro),
-            supabase.from('miembro_calidad_historial').select('*').eq('id_miembro', miembro.id_miembro).order('fecha_desde', { ascending: false }),
+            supabase.from('miembro_calidad_historial').select('*').eq('id_miembro', miembro.id_miembro).order('fecha_desde'),
         ])
         const historial = historialResp.data || []
         setCuotas((cuotasResp.data || []).filter((c) => {
             if (!c.fecha_vencimiento || c.fecha_vencimiento.slice(5, 7) === '01') return false
             const mes = c.fecha_vencimiento.slice(0, 7)
-            const calidad = calidadParaMes(historial, mes, miembro)
-            return calidad != null && c.aplica_calidad === calidad
+            const periodo = historial.find((h) => h.fecha_desde.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))
+            return c.aplica_calidad === (periodo?.calidad || miembro.calidad)
         }))
         setPagos(pagosResp.data || [])
     }

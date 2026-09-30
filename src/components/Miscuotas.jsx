@@ -12,21 +12,9 @@ function mesDeCuota(cuota) {
     return indice < 0 ? null : `${match[2]}-${String(indice + 1).padStart(2, '0')}-01`
 }
 
-function calidadEnFecha(historial, fecha, miembro) {
+function calidadEnFecha(historial, fecha) {
     const mes = fecha.slice(0, 7)
-    // Si hay períodos superpuestos, prevalece el que empezó más recientemente.
-    const periodo = [...historial]
-        .filter((h) => h.fecha_desde.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))
-        .sort((a, b) => b.fecha_desde.localeCompare(a.fecha_desde))[0]?.calidad
-    if (periodo) return periodo
-
-    // Si hay historial, no aplicar la calidad actual a meses fuera de sus períodos.
-    if (historial.length) return null
-
-    // Miembros creados después de activar el historial pueden no tener fila todavía.
-    const fechaIngreso = miembro.fecha_ingreso || miembro.creado_en?.slice(0, 10)
-    if (fechaIngreso && mes < fechaIngreso.slice(0, 7)) return null
-    return miembro.calidad
+    return historial.find((h) => h.fecha_desde.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))?.calidad
 }
 
 function agruparPorPeriodo(cuotas, pagos) {
@@ -76,7 +64,7 @@ export default function MisCuotas({ miembro }) {
         const [cuotasResp, pagosResp, historialResp] = await Promise.all([
             supabase.from('cuotas').select('*').order('fecha_vencimiento'),
             supabase.from('pagos').select('*').eq('id_miembro', miembro.id_miembro),
-            supabase.from('miembro_calidad_historial').select('*').eq('id_miembro', miembro.id_miembro).order('fecha_desde', { ascending: false }),
+            supabase.from('miembro_calidad_historial').select('*').eq('id_miembro', miembro.id_miembro).order('fecha_desde'),
         ])
         const error = cuotasResp.error || pagosResp.error || historialResp.error
         if (error) setMensaje('No se pudieron cargar las cuotas: ' + error.message)
@@ -84,8 +72,8 @@ export default function MisCuotas({ miembro }) {
         const visibles = (cuotasResp.data || []).filter((cuota) => {
             const mes = mesDeCuota(cuota)
             if (!mes || mes.slice(5, 7) === '01') return false
-            const calidad = calidadEnFecha(historial, mes, miembro)
-            return calidad != null && cuota.aplica_calidad === calidad
+            const calidad = calidadEnFecha(historial, mes)
+            return cuota.aplica_calidad === (calidad || miembro.calidad)
         })
         setCuotas(visibles)
         setPagos(pagosResp.data || [])
