@@ -12,9 +12,15 @@ function mesDeCuota(cuota) {
     return indice < 0 ? null : `${match[2]}-${String(indice + 1).padStart(2, '0')}-01`
 }
 
-function calidadEnFecha(historial, fecha) {
-    const mes = fecha.slice(0, 7)
-    return historial.find((h) => h.fecha_desde.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))?.calidad
+function calidadEnFecha(historial, fechaYYYYMM01) {
+    const mesInicio = fechaYYYYMM01.slice(0, 7) + '-01'
+    return [...historial]
+        .filter((h) => {
+            const desde = h.fecha_desde?.slice(0, 7) + '-01'
+            const hasta = h.fecha_hasta ? (h.fecha_hasta.slice(0, 7) + '-01') : '9999-12-31'
+            return mesInicio >= desde && mesInicio <= hasta
+        })
+        .sort((a, b) => b.fecha_desde.localeCompare(a.fecha_desde))[0]?.calidad
 }
 
 function agruparPorPeriodo(cuotas, pagos) {
@@ -67,13 +73,27 @@ export default function MisCuotas({ miembro }) {
             supabase.from('miembro_calidad_historial').select('*').eq('id_miembro', miembro.id_miembro).order('fecha_desde'),
         ])
         const error = cuotasResp.error || pagosResp.error || historialResp.error
-        if (error) setMensaje('No se pudieron cargar las cuotas: ' + error.message)
+        if (error) {
+            setMensaje('No se pudieron cargar las cuotas correctamente: ' + error.message)
+            setCuotas([])
+            setPagos([])
+            setCargando(false)
+            return
+        }
         const historial = historialResp.data || []
+        if (historial.length === 0) {
+            setMensaje('No hay historial de calidad para este miembro. Revisá miembro_calidad_historial en Supabase.')
+            setCuotas([])
+            setPagos(pagosResp.data || [])
+            setCargando(false)
+            return
+        }
+        setMensaje('')
         const visibles = (cuotasResp.data || []).filter((cuota) => {
             const mes = mesDeCuota(cuota)
             if (!mes || mes.slice(5, 7) === '01') return false
             const calidad = calidadEnFecha(historial, mes)
-            return cuota.aplica_calidad === (calidad || miembro.calidad)
+            return calidad && cuota.aplica_calidad === calidad
         })
         setCuotas(visibles)
         setPagos(pagosResp.data || [])
