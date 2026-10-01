@@ -20,6 +20,12 @@ function primerDiaDelMesSiguiente(fecha) {
     return `${mes === 12 ? anio + 1 : anio}-${String(mes === 12 ? 1 : mes + 1).padStart(2, '0')}-01`
 }
 
+function calidadEnMes(historial, mes) {
+    return [...historial]
+        .filter((periodo) => periodo.fecha_desde?.slice(0, 7) <= mes && (!periodo.fecha_hasta || periodo.fecha_hasta.slice(0, 7) >= mes))
+        .sort((a, b) => b.fecha_desde.localeCompare(a.fecha_desde))[0]?.calidad
+}
+
 export default function FichaMiembro({ miembro, onCerrar, onActualizado }) {
     const [pestaña, setPestaña] = useState('personales')
 
@@ -521,12 +527,26 @@ function CuotasMiembro({ miembro }) {
             supabase.from('pagos').select('*').eq('id_miembro', miembro.id_miembro),
             supabase.from('miembro_calidad_historial').select('*').eq('id_miembro', miembro.id_miembro).order('fecha_desde'),
         ])
+        const error = cuotasResp.error || pagosResp.error || historialResp.error
+        if (error) {
+            setMensaje('No se pudieron cargar las cuotas correctamente: ' + error.message)
+            setCuotas([])
+            setPagos([])
+            return
+        }
         const historial = historialResp.data || []
+        if (historial.length === 0) {
+            setMensaje('No hay historial de calidad para este miembro. Revisá miembro_calidad_historial en Supabase antes de mostrar sus cuotas.')
+            setCuotas([])
+            setPagos(pagosResp.data || [])
+            return
+        }
+        setMensaje(null)
         setCuotas((cuotasResp.data || []).filter((c) => {
             if (!c.fecha_vencimiento || c.fecha_vencimiento.slice(5, 7) === '01') return false
             const mes = c.fecha_vencimiento.slice(0, 7)
-            const periodo = historial.find((h) => h.fecha_desde.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))
-            return c.aplica_calidad === (periodo?.calidad || miembro.calidad)
+            const calidad = calidadEnMes(historial, mes)
+            return calidad && c.aplica_calidad === calidad
         }))
         setPagos(pagosResp.data || [])
     }
@@ -581,10 +601,10 @@ function CuotasMiembro({ miembro }) {
             {mensaje && <p>{mensaje}</p>}
             {periodos.map((periodo) => (
                 <section key={periodo.clave}>
-                    <h4>Período {periodo.inicio}–{periodo.inicio + 1}</h4>
+                    <h4 className="rtc-cuotas-periodo">Período {periodo.inicio}–{periodo.inicio + 1}</h4>
                     {periodo.semestres.map((semestre) => (
-                        <details key={semestre.numero}>
-                            <summary>
+                        <details className="rtc-cuotas-semestre" key={semestre.numero}>
+                            <summary className="rtc-cuotas-resumen">
                                 {semestre.numero === 1 ? 'Primer' : 'Segundo'} semestre · Período {periodo.inicio}–{periodo.inicio + 1} ({semestre.rango}) · {semestre.cuotas.length} cuotas · {semestre.pendientes} pendientes
                             </summary>
                             <table>
