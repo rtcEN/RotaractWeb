@@ -20,9 +20,14 @@ function primerDiaDelMesSiguiente(fecha) {
     return `${mes === 12 ? anio + 1 : anio}-${String(mes === 12 ? 1 : mes + 1).padStart(2, '0')}-01`
 }
 
-function calidadEnMes(historial, mes) {
+function calidadEnMes(historial, mesYYYYMM) {
+    const mesInicio = mesYYYYMM + '-01'
     return [...historial]
-        .filter((periodo) => periodo.fecha_desde?.slice(0, 7) <= mes && (!periodo.fecha_hasta || periodo.fecha_hasta.slice(0, 7) >= mes))
+        .filter((h) => {
+            const desde = h.fecha_desde?.slice(0, 7) + '-01'
+            const hasta = h.fecha_hasta ? (h.fecha_hasta.slice(0, 7) + '-01') : '9999-12-31'
+            return mesInicio >= desde && mesInicio <= hasta
+        })
         .sort((a, b) => b.fecha_desde.localeCompare(a.fecha_desde))[0]?.calidad
 }
 
@@ -58,9 +63,6 @@ export default function FichaMiembro({ miembro, onCerrar, onActualizado }) {
     )
 }
 
-/* ===================================================================
-   Datos personales
-   =================================================================== */
 function DatosPersonales({ miembro, onActualizado }) {
     const [nombre, setNombre] = useState(miembro.nombre_miembro)
     const [correo, setCorreo] = useState(miembro.correo_miembro)
@@ -116,9 +118,6 @@ function DatosPersonales({ miembro, onActualizado }) {
     )
 }
 
-/* ===================================================================
-   Datos del club (calidad / estado)
-   =================================================================== */
 function DatosClub({ miembro, onActualizado }) {
     const [calidad, setCalidad] = useState(miembro.calidad)
     const [fechaCambioCalidad, setFechaCambioCalidad] = useState(fechaHoyLocal)
@@ -137,8 +136,7 @@ function DatosClub({ miembro, onActualizado }) {
                 setCargando(false)
                 return
             }
-            // La cuota del mes de promoción conserva la calidad anterior.
-            // La nueva calidad se aplica desde el primer día del mes siguiente.
+
             const fechaEfectiva = primerDiaDelMesSiguiente(fechaCambioCalidad)
             const { data: historial, error: historialError } = await supabase
                 .from('miembro_calidad_historial')
@@ -147,11 +145,13 @@ function DatosClub({ miembro, onActualizado }) {
                 .is('fecha_hasta', null)
                 .order('fecha_desde', { ascending: false })
                 .limit(1)
+
             if (historialError) {
                 setMensaje('No se pudo leer el historial: ' + historialError.message)
                 setCargando(false)
                 return
             }
+
             let periodoActual = historial?.[0]
             if (!periodoActual) {
                 const fechaInicio = miembro.fecha_ingreso || miembro.creado_en?.slice(0, 10)
@@ -161,6 +161,7 @@ function DatosClub({ miembro, onActualizado }) {
                         calidad: miembro.calidad,
                         fecha_desde: fechaInicio,
                     }).select().single()
+
                     if (inicialError) {
                         setMensaje('No se pudo iniciar el historial: ' + inicialError.message)
                         setCargando(false)
@@ -169,11 +170,16 @@ function DatosClub({ miembro, onActualizado }) {
                     periodoActual = inicial
                 }
             }
-            if (periodoActual && fechaEfectiva <= `${periodoActual.fecha_desde.slice(0, 7)}-01`) {
-                setMensaje('Elegí un mes posterior al inicio de la calidad vigente.')
+
+            const mesEfectivo = fechaEfectiva.slice(0, 7)
+            const mesVigente = periodoActual?.fecha_desde ? periodoActual.fecha_desde.slice(0, 7) : null
+
+            if (mesVigente && mesEfectivo < mesVigente) {
+                setMensaje('El mes del ascenso no puede ser anterior al inicio de la calidad vigente.')
                 setCargando(false)
                 return
             }
+
             if (periodoActual) {
                 const diaAnterior = new Date(`${fechaEfectiva}T12:00:00`)
                 diaAnterior.setDate(diaAnterior.getDate() - 1)
@@ -181,19 +187,31 @@ function DatosClub({ miembro, onActualizado }) {
                     .from('miembro_calidad_historial')
                     .update({ fecha_hasta: diaAnterior.toISOString().slice(0, 10) })
                     .eq('id_historial', periodoActual.id_historial)
+
                 if (cerrarError) {
                     setMensaje('No se pudo cerrar el período anterior: ' + cerrarError.message)
                     setCargando(false)
                     return
                 }
             }
+
             const { error: insertarError } = await supabase.from('miembro_calidad_historial').insert({
                 id_miembro: miembro.id_miembro,
                 calidad,
                 fecha_desde: fechaEfectiva,
             })
+
             if (insertarError) {
                 setMensaje('No se pudo guardar el nuevo período de calidad: ' + insertarError.message)
+                setCargando(false)
+                return
+            }
+
+            const { error: cuotasError } = await supabase.rpc('generar_cuotas_miembro', {
+                p_id_miembro: miembro.id_miembro,
+            })
+            if (cuotasError) {
+                setMensaje('Se guardó el historial, pero no se pudieron generar las cuotas faltantes: ' + cuotasError.message)
                 setCargando(false)
                 return
             }
@@ -224,9 +242,9 @@ function DatosClub({ miembro, onActualizado }) {
             </label>
             {calidad !== miembro.calidad && (
                 <label>
-                    Fecha de ascenso a socio
+                    Fecha del cambio de calidad
                     <input type="date" value={fechaCambioCalidad} onChange={(e) => setFechaCambioCalidad(e.target.value)} required />
-                    <small>El mes del ascenso conserva la cuota de aspirante. La cuota de socio empieza el mes siguiente.</small>
+                    <small>El mes del cambio conserva la calidad anterior. La nueva calidad se aplica desde el mes siguiente.</small>
                 </label>
             )}
             <label>
@@ -242,9 +260,6 @@ function DatosClub({ miembro, onActualizado }) {
     )
 }
 
-/* ===================================================================
-   Cargos y comités
-   =================================================================== */
 function CargosYComites({ miembro }) {
     const [cargos, setCargos] = useState([])
     const [comites, setComites] = useState([])
@@ -256,9 +271,7 @@ function CargosYComites({ miembro }) {
     const [rolComite, setRolComite] = useState('miembro')
     const [mensaje, setMensaje] = useState(null)
 
-    useEffect(() => {
-        cargarTodo()
-    }, [])
+    useEffect(() => { cargarTodo() }, [])
 
     async function cargarTodo() {
         const { data: c } = await supabase.from('cargos').select('*').order('nombre_cargo')
@@ -291,13 +304,8 @@ function CargosYComites({ miembro }) {
             id_cargo: idCargo,
             periodo: periodo,
         })
-        if (error) {
-            setMensaje('Error: ' + error.message)
-            return
-        }
+        if (error) { setMensaje('Error: ' + error.message); return }
 
-        // Si el cargo es "Director de <comité>", asignamos ese comité
-        // automáticamente como coordinador, para no cargarlo dos veces.
         const cargoElegido = cargos.find((c) => String(c.id_cargo) === String(idCargo))
         const nombreCargo = cargoElegido?.nombre_cargo || ''
         if (normalizar(nombreCargo).startsWith('director de ')) {
@@ -336,16 +344,14 @@ function CargosYComites({ miembro }) {
     }
 
     async function quitarCargo(id_miembro_cargo) {
-        const confirmar = window.confirm('¿Quitar esta asignación de cargo? Podés volver a asignarla después con los datos correctos.')
-        if (!confirmar) return
+        if (!window.confirm('¿Quitar esta asignación de cargo?')) return
         const { error } = await supabase.from('miembro_cargos').delete().eq('id_miembro_cargo', id_miembro_cargo)
         if (error) setMensaje('Error: ' + error.message)
         else cargarTodo()
     }
 
     async function quitarComite(id_miembro_comite) {
-        const confirmar = window.confirm('¿Quitar esta asignación de comité?')
-        if (!confirmar) return
+        if (!window.confirm('¿Quitar esta asignación de comité?')) return
         const { error } = await supabase.from('miembro_comites').delete().eq('id_miembro_comite', id_miembro_comite)
         if (error) setMensaje('Error: ' + error.message)
         else cargarTodo()
@@ -422,16 +428,11 @@ function CargosYComites({ miembro }) {
     )
 }
 
-/* ===================================================================
-   Asistencias
-   =================================================================== */
 function AsistenciasMiembro({ miembro }) {
     const [asistencias, setAsistencias] = useState([])
     const [mensaje, setMensaje] = useState(null)
 
-    useEffect(() => {
-        cargar()
-    }, [])
+    useEffect(() => { cargar() }, [])
 
     async function cargar() {
         const { data } = await supabase
@@ -475,130 +476,78 @@ function AsistenciasMiembro({ miembro }) {
     )
 }
 
-/* ===================================================================
-   Cuotas
-   =================================================================== */
-function agruparCuotasPorPeriodo(cuotas, pagos) {
-    const periodos = new Map()
-    for (const cuota of cuotas) {
-        const fecha = cuota.fecha_vencimiento
-        if (!fecha) continue
-        const anio = Number(fecha.slice(0, 4))
-        const mes = Number(fecha.slice(5, 7))
-        const inicio = mes >= 7 ? anio : anio - 1
-        const semestre = mes >= 7 ? 1 : 2
-        const clave = `${inicio}-${inicio + 1}`
-        if (!periodos.has(clave)) periodos.set(clave, { clave, inicio, semestres: { 1: [], 2: [] } })
-        periodos.get(clave).semestres[semestre].push(cuota)
+function agruparCuotasGeneradas(cuotas) {
+    const grupos = new Map()
+    for (const item of cuotas) {
+        const periodo = Array.isArray(item.periodo_lectivo) ? item.periodo_lectivo[0] : item.periodo_lectivo
+        if (!periodo) continue
+        const clave = `${periodo.anio_inicio}-${periodo.anio_inicio + 1}`
+        if (!grupos.has(clave)) grupos.set(clave, { clave, inicio: periodo.anio_inicio, semestres: { 1: [], 2: [] } })
+        grupos.get(clave).semestres[periodo.semestre].push({ ...item, periodoInfo: periodo })
     }
 
-    const hoy = new Date()
-    const periodoActualInicio = hoy.getMonth() >= 6 ? hoy.getFullYear() : hoy.getFullYear() - 1
-    return [...periodos.values()]
-        .filter((periodo) => periodo.inicio === periodoActualInicio || periodo.inicio === periodoActualInicio - 1)
+    return [...grupos.values()]
         .sort((a, b) => b.inicio - a.inicio)
-        .map((periodo) => ({
-        ...periodo,
-        semestres: Object.entries(periodo.semestres).filter(([numero, items]) => items.length && !(periodo.inicio === periodoActualInicio - 1 && numero === '1')).map(([numero, items]) => {
-            const pagadas = items.filter((cuota) => pagos.find((p) => p.id_cuota === cuota.id_cuota)?.estado_pago === 'pagado').length
-            const n = Number(numero)
-            return {
-                numero: n,
-                rango: n === 1 ? `julio–diciembre ${periodo.inicio}` : `febrero–junio ${periodo.inicio + 1}`,
-                cuotas: items,
-                pendientes: items.length - pagadas,
-            }
-        }),
+        .map((grupo) => ({
+            ...grupo,
+            semestres: Object.entries(grupo.semestres)
+                .filter(([, items]) => items.length)
+                .map(([numero, items]) => ({
+                    numero: Number(numero),
+                    rango: numero === '1' ? `julio–diciembre ${grupo.inicio}` : `febrero–junio ${grupo.inicio + 1}`,
+                    cuotas: items.sort((a, b) => a.periodoInfo.mes - b.periodoInfo.mes),
+                    pendientes: items.filter((item) => item.estado_pago !== 'pagado').length,
+                })),
         }))
+}
+
+function estadoVisualCuota(cuota) {
+    if (cuota.estado_pago === 'pagado') return { etiqueta: 'Pagada', clase: 'activo' }
+    const periodo = cuota.periodoInfo
+    const hoyDate = new Date()
+    const hoy = `${hoyDate.getFullYear()}-${String(hoyDate.getMonth() + 1).padStart(2, '0')}-${String(hoyDate.getDate()).padStart(2, '0')}`
+    const mes = `${periodo.anio}-${String(periodo.mes).padStart(2, '0')}`
+    if (hoy.slice(0, 7) < mes) return { etiqueta: 'Próxima', clase: 'proxima' }
+    if (periodo.fecha_vencimiento && hoy <= periodo.fecha_vencimiento) return { etiqueta: 'Por pagar', clase: 'por-pagar' }
+    return { etiqueta: 'Atrasada', clase: 'atrasada' }
 }
 
 function CuotasMiembro({ miembro }) {
     const [cuotas, setCuotas] = useState([])
-    const [pagos, setPagos] = useState([])
     const [mensaje, setMensaje] = useState(null)
 
-    useEffect(() => {
-        cargar()
-    }, [])
+    useEffect(() => { cargar() }, [miembro.id_miembro])
 
     async function cargar() {
-        const [cuotasResp, pagosResp, historialResp] = await Promise.all([
-            supabase.from('cuotas').select('*').order('fecha_vencimiento'),
-            supabase.from('pagos').select('*').eq('id_miembro', miembro.id_miembro),
-            supabase.from('miembro_calidad_historial').select('*').eq('id_miembro', miembro.id_miembro).order('fecha_desde'),
-        ])
-        const error = cuotasResp.error || pagosResp.error || historialResp.error
+        const { data, error } = await supabase
+            .from('miembro_cuota')
+            .select(`id_miembro_cuota, calidad_aplicada, monto_generado, estado_pago, fecha_pago,
+                periodo_lectivo!id_periodo (id_periodo, anio_inicio, semestre, mes, anio, fecha_vencimiento)`)
+            .eq('id_miembro', miembro.id_miembro)
+
         if (error) {
-            setMensaje('No se pudieron cargar las cuotas correctamente: ' + error.message)
+            setMensaje('No se pudieron cargar las cuotas generadas: ' + error.message)
             setCuotas([])
-            setPagos([])
-            return
-        }
-        const historial = historialResp.data || []
-        if (historial.length === 0) {
-            setMensaje('No hay historial de calidad para este miembro. Revisá miembro_calidad_historial en Supabase antes de mostrar sus cuotas.')
-            setCuotas([])
-            setPagos(pagosResp.data || [])
             return
         }
         setMensaje(null)
-        setCuotas((cuotasResp.data || []).filter((c) => {
-            if (!c.fecha_vencimiento || c.fecha_vencimiento.slice(5, 7) === '01') return false
-            const mes = c.fecha_vencimiento.slice(0, 7)
-            const calidad = calidadEnMes(historial, mes)
-            return calidad && c.aplica_calidad === calidad
-        }))
-        setPagos(pagosResp.data || [])
+        setCuotas(data || [])
     }
 
-    function pagoDeCuota(id_cuota) {
-        return pagos.find((p) => p.id_cuota === id_cuota)
-    }
-
-    async function marcarPagado(cuota) {
-        const existente = pagoDeCuota(cuota.id_cuota)
-        let error
-        if (existente) {
-            ; ({ error } = await supabase
-                .from('pagos')
-                .update({ estado_pago: 'pagado', fecha_pago: new Date().toISOString().slice(0, 10), monto_pagado: cuota.monto_cuota })
-                .eq('id_pago', existente.id_pago))
-        } else {
-            ; ({ error } = await supabase.from('pagos').insert({
-                id_miembro: miembro.id_miembro,
-                id_cuota: cuota.id_cuota,
-                monto_pagado: cuota.monto_cuota,
-                fecha_pago: new Date().toISOString().slice(0, 10),
-                estado_pago: 'pagado',
-            }))
-        }
-        if (error) setMensaje('Error: ' + error.message)
+    async function cambiarPago(cuota, pagado) {
+        const fecha = pagado ? new Date().toISOString().slice(0, 10) : null
+        const { error } = await supabase
+            .from('miembro_cuota')
+            .update({ estado_pago: pagado ? 'pagado' : 'pendiente', fecha_pago: fecha })
+            .eq('id_miembro_cuota', cuota.id_miembro_cuota)
+        if (error) setMensaje('No se pudo actualizar el pago: ' + error.message)
         else cargar()
     }
 
-    async function deshacerPago(cuota) {
-        const existente = pagoDeCuota(cuota.id_cuota)
-        if (!existente || existente.estado_pago !== 'pagado') return
-        const confirmar = window.confirm(`¿Deshacer el pago de ${cuota.periodo_cuota} y dejar la cuota pendiente?`)
-        if (!confirmar) return
-
-        const { error } = await supabase
-            .from('pagos')
-            .update({ estado_pago: 'pendiente', fecha_pago: null, monto_pagado: 0 })
-            .eq('id_pago', existente.id_pago)
-
-        if (error) setMensaje('Error al deshacer el pago: ' + error.message)
-        else {
-            setMensaje('Pago deshecho. La cuota quedó pendiente.')
-            cargar()
-        }
-    }
-
-    const periodos = agruparCuotasPorPeriodo(cuotas, pagos)
-
+    const periodos = agruparCuotasGeneradas(cuotas)
     return (
         <div>
-            {mensaje && <p>{mensaje}</p>}
+            {mensaje && <p role="alert">{mensaje}</p>}
             {periodos.map((periodo) => (
                 <section key={periodo.clave}>
                     <h4 className="rtc-cuotas-periodo">Período {periodo.inicio}–{periodo.inicio + 1}</h4>
@@ -610,19 +559,21 @@ function CuotasMiembro({ miembro }) {
                             <table>
                                 <thead><tr><th>Mes</th><th>Calidad</th><th>Monto</th><th>Estado</th><th>Acción</th></tr></thead>
                                 <tbody>
-                                    {semestre.cuotas.map((c) => {
-                                        const pago = pagoDeCuota(c.id_cuota)
-                                        const pagado = pago?.estado_pago === 'pagado'
+                                    {semestre.cuotas.map((cuota) => {
+                                        const periodoInfo = cuota.periodoInfo
+                                        const pagado = cuota.estado_pago === 'pagado'
+                                        const estado = estadoVisualCuota(cuota)
+                                        const mes = new Date(periodoInfo.anio, periodoInfo.mes - 1, 1)
+                                            .toLocaleDateString('es-PY', { month: 'long', year: 'numeric' })
                                         return (
-                                            <tr key={c.id_cuota}>
-                                                <td>{c.periodo_cuota}</td>
-                                                <td>{c.aplica_calidad === 'A' ? 'Aspirante' : 'Socio'}</td>
-                                                <td>Gs. {Number(c.monto_cuota).toLocaleString('es-PY')}</td>
-                                                <td><span className={'rtc-badge rtc-badge--' + (pagado ? 'activo' : 'pendiente')}>{pagado ? 'Pagado' : 'Pendiente'}</span></td>
-                                                <td>
-                                                    {pagado
-                                                        ? <button className="rtc-btn-secundario" onClick={() => deshacerPago(c)}>Deshacer pago</button>
-                                                        : <button onClick={() => marcarPagado(c)}>Marcar pagado</button>}
+                                            <tr key={cuota.id_miembro_cuota}>
+                                                <td>{mes}</td>
+                                                <td>{cuota.calidad_aplicada === 'A' ? 'Aspirante' : 'Socio'}</td>
+                                                <td>Gs. {Number(cuota.monto_generado).toLocaleString('es-PY')}</td>
+                                                <td><span className={'rtc-badge rtc-badge--' + estado.clase}>{estado.etiqueta}</span></td>
+                                                <td>{pagado
+                                                    ? <button className="rtc-btn-secundario" onClick={() => cambiarPago(cuota, false)}>Deshacer pago</button>
+                                                    : <button onClick={() => cambiarPago(cuota, true)}>Marcar pagado</button>}
                                                 </td>
                                             </tr>
                                         )
@@ -633,23 +584,18 @@ function CuotasMiembro({ miembro }) {
                     ))}
                 </section>
             ))}
-            {periodos.length === 0 && <p>No hay cuotas para mostrar.</p>}
+            {!mensaje && periodos.length === 0 && <p>No hay cuotas generadas para este miembro en los períodos recientes.</p>}
         </div>
     )
 }
 
-/* ===================================================================
-   Préstamos
-   =================================================================== */
 function PrestamosMiembro({ miembro }) {
     const [prestamos, setPrestamos] = useState([])
     const [monto, setMonto] = useState('')
     const [observaciones, setObservaciones] = useState('')
     const [mensaje, setMensaje] = useState(null)
 
-    useEffect(() => {
-        cargar()
-    }, [])
+    useEffect(() => { cargar() }, [])
 
     async function cargar() {
         const { data } = await supabase

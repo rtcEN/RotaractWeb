@@ -567,7 +567,136 @@ table button {
   color: var(--warning);
 }
 
+.rtc-badge--proxima {
+  background: var(--line);
+  color: var(--ink-soft);
+}
+
+.rtc-badge--por-pagar {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.rtc-badge--atrasada {
+  background: #FCE4E4;
+  color: #A4262C;
+}
+
 .rtc-badge--inactivo {
   background: var(--line);
   color: var(--ink-soft);
+}
+
+.rtc-tesoreria-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rtc-tesoreria-header h2,
+.rtc-tesoreria-header p {
+  margin: 0;
+}
+
+.rtc-tesoreria-header label {
+  min-width: min(100%, 280px);
+}
+
+.rtc-tesoreria-periodo {
+  color: var(--magenta-dark);
+  margin: 1.2rem 0 0.8rem;
+}
+
+.rtc-tesoreria-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 0.7rem;
+  margin: 1rem 0;
+}
+
+.rtc-tesoreria-resumen article {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.rtc-tesoreria-resumen article span {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.rtc-tesoreria-resumen article strong {
+  color: var(--ink);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+}
+
+.rtc-tesoreria-filtros {
+  display: flex;
+  gap: 0.7rem;
+  margin: 1rem 0 0.6rem;
+}
+
+.rtc-tabla-scroll {
+  overflow-x: auto;
+}
+
+.rtc-tabla-tesoreria {
+  min-width: 720px;
+}
+
+.rtc-tesoreria-mensaje {
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  background: #FCE4E4;
+  color: #A4262C;
+}
+
+.rtc-modal-fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(36 27 47 / 45%);
+}
+
+.rtc-modal-tesoreria {
+  width: min(100%, 440px);
+  max-width: none;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 16px 50px rgb(36 27 47 / 20%);
+}
+
+.rtc-modal-tesoreria h3 {
+  margin-top: 0;
+}
+
+.rtc-modal-tesoreria p {
+  margin: 0.4rem 0;
+}
+
+.rtc-modal-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .rtc-tesoreria-header,
+  .rtc-tesoreria-filtros {
+    align-items: stretch;
+    flex-direction: column;
+  }
 }

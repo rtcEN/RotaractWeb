@@ -51,12 +51,62 @@ export default function AltaMiembro() {
             }
             if (data?.error) throw new Error(data.error)
 
+            let avisoCuotas = ''
+            if (data?.user_id) {
+                const { data: miembroNuevo, error: miembroError } = await supabase
+                    .from('miembro')
+                    .select('id_miembro, calidad, fecha_ingreso, creado_en')
+                    .eq('user_id', data.user_id)
+                    .single()
+
+                if (miembroError) {
+                    avisoCuotas = miembroError.message
+                } else {
+                    const { data: historial, error: historialError } = await supabase
+                        .from('miembro_calidad_historial')
+                        .select('id_historial')
+                        .eq('id_miembro', miembroNuevo.id_miembro)
+                        .limit(1)
+
+                    if (historialError) {
+                        avisoCuotas = historialError.message
+                    } else if (!historial?.length) {
+                        const fechaInicio = miembroNuevo.fecha_ingreso || miembroNuevo.creado_en?.slice(0, 10)
+                        if (!fechaInicio) {
+                            avisoCuotas = 'No se encontró fecha de ingreso para iniciar el historial de calidad.'
+                        } else {
+                            const { error: insertarHistorialError } = await supabase
+                                .from('miembro_calidad_historial')
+                                .insert({
+                                    id_miembro: miembroNuevo.id_miembro,
+                                    calidad: miembroNuevo.calidad,
+                                    fecha_desde: fechaInicio,
+                                })
+                            if (insertarHistorialError) avisoCuotas = insertarHistorialError.message
+                        }
+                    }
+
+                    if (!avisoCuotas && miembroNuevo.calidad !== 'H') {
+                        const { error: generarError } = await supabase.rpc('generar_cuotas_miembro', {
+                            p_id_miembro: miembroNuevo.id_miembro,
+                        })
+                        if (generarError) avisoCuotas = generarError.message
+                    }
+                }
+            } else {
+                avisoCuotas = 'No se recibió el usuario creado para generar su historial y cuotas.'
+            }
+
             if (archivoFoto) {
                 const fotoUrl = await subirFoto(data.user_id)
                 await supabase.from('miembro').update({ foto_url: fotoUrl }).eq('user_id', data.user_id)
             }
 
-            setMensaje('¡Miembro dado de alta correctamente! Contraseña temporal: ' + password)
+            setMensaje(avisoCuotas
+                ? `Miembro creado, pero no se pudo iniciar su historial o sus cuotas: ${avisoCuotas}`
+                : calidad === 'H'
+                    ? '¡Miembro dado de alta correctamente! Se inició su historial. Honorario no genera cuotas. Contraseña temporal: ' + password
+                    : '¡Miembro dado de alta correctamente! Se inicializaron su historial y sus cuotas. Contraseña temporal: ' + password)
             setNombre('')
             setCorreo('')
             setPassword('')
