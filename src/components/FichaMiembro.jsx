@@ -20,17 +20,6 @@ function primerDiaDelMesSiguiente(fecha) {
     return `${mes === 12 ? anio + 1 : anio}-${String(mes === 12 ? 1 : mes + 1).padStart(2, '0')}-01`
 }
 
-function calidadEnMes(historial, mesYYYYMM) {
-    const mesInicio = mesYYYYMM + '-01'
-    return [...historial]
-        .filter((h) => {
-            const desde = h.fecha_desde?.slice(0, 7) + '-01'
-            const hasta = h.fecha_hasta ? (h.fecha_hasta.slice(0, 7) + '-01') : '9999-12-31'
-            return mesInicio >= desde && mesInicio <= hasta
-        })
-        .sort((a, b) => b.fecha_desde.localeCompare(a.fecha_desde))[0]?.calidad
-}
-
 export default function FichaMiembro({ miembro, onCerrar, onActualizado }) {
     const [pestaña, setPestaña] = useState('personales')
 
@@ -343,11 +332,33 @@ function CargosYComites({ miembro }) {
         }
     }
 
-    async function quitarCargo(id_miembro_cargo) {
+    // Recibe la fila completa (no solo el id) porque necesitamos saber
+    // el nombre del cargo para decidir si hay que sacar también el comité.
+    async function quitarCargo(mc) {
         if (!window.confirm('¿Quitar esta asignación de cargo?')) return
-        const { error } = await supabase.from('miembro_cargos').delete().eq('id_miembro_cargo', id_miembro_cargo)
-        if (error) setMensaje('Error: ' + error.message)
-        else cargarTodo()
+        const { error } = await supabase.from('miembro_cargos').delete().eq('id_miembro_cargo', mc.id_miembro_cargo)
+        if (error) {
+            setMensaje('Error: ' + error.message)
+            return
+        }
+
+        // Si era "Director de <comité>", le sacamos también el rol de
+        // coordinador que se le había asignado automáticamente al cargarlo.
+        const nombreCargo = mc.cargos?.nombre_cargo || ''
+        if (normalizar(nombreCargo).startsWith('director de ')) {
+            const nombreComiteBuscado = nombreCargo.replace(/^director de /i, '')
+            const comiteRelacionado = comites.find((c) => normalizar(c.nombre_comite) === normalizar(nombreComiteBuscado))
+            const asignacion = miComites.find(
+                (m) => m.id_comite === comiteRelacionado?.id_comite && m.rol_comite === 'coordinador'
+            )
+
+            if (asignacion) {
+                await supabase.from('miembro_comites').delete().eq('id_miembro_comite', asignacion.id_miembro_comite)
+                setMensaje(`Se quitó el cargo y también el rol de coordinador en "${comiteRelacionado.nombre_comite}".`)
+            }
+        }
+
+        cargarTodo()
     }
 
     async function quitarComite(id_miembro_comite) {
@@ -369,7 +380,7 @@ function CargosYComites({ miembro }) {
                         <tr key={mc.id_miembro_cargo}>
                             <td>{mc.cargos?.nombre_cargo}</td>
                             <td>{mc.periodo}</td>
-                            <td><button className="rtc-btn-peligro" onClick={() => quitarCargo(mc.id_miembro_cargo)}>Quitar</button></td>
+                            <td><button className="rtc-btn-peligro" onClick={() => quitarCargo(mc)}>Quitar</button></td>
                         </tr>
                     ))}
                 </tbody>
