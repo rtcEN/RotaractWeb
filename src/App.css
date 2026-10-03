@@ -1,5 +1,5 @@
 /* =====================================================================
-Rotaract Encarnación Norte — estilos base
+   Rotaract Encarnación Norte — estilos base
    ===================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Nunito:wght@400;600;700&display=swap');
@@ -31,10 +31,7 @@ body {
   text-align: left;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   color: var(--ink);
@@ -42,45 +39,19 @@ h4 {
   margin: 0 0 0.4em;
 }
 
-h1 {
-  font-size: 1.7rem;
-}
+h1 { font-size: 1.7rem; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; margin: 2rem 0 0.9rem; }
+h3:first-child { margin-top: 0; }
+h4 { font-size: 0.95rem; color: var(--magenta-dark); }
 
-h2 {
-  font-size: 1.3rem;
-}
+p { color: var(--ink-soft); margin: 0 0 0.5rem; }
 
-h3 {
-  font-size: 1.05rem;
-  margin: 2rem 0 0.9rem;
-}
-
-h3:first-child {
-  margin-top: 0;
-}
-
-h4 {
-  font-size: 0.95rem;
-  color: var(--magenta-dark);
-}
-
-p {
-  color: var(--ink-soft);
-  margin: 0 0 0.5rem;
-}
-
-a {
-  color: var(--magenta-dark);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-a:hover {
-  text-decoration: underline;
-}
+a { color: var(--magenta-dark); text-decoration: none; font-weight: 600; }
+a:hover { text-decoration: underline; }
 
 /* ---------------------------------------------------------------------
-Nav pública (Inicio / Iniciar sesión) — páginas sin panel
+   Nav pública (Inicio / Iniciar sesión) — páginas sin panel
    --------------------------------------------------------------------- */
 .rtc-nav {
   display: flex;
@@ -90,23 +61,9 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   background: var(--surface);
   border-bottom: 3px solid var(--magenta);
 }
-
-.rtc-nav .rtc-brand img {
-  height: 40px;
-  width: auto;
-  display: block;
-}
-
-.rtc-nav nav a {
-  margin-left: 1.5rem;
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.rtc-nav nav a:hover {
-  color: var(--magenta);
-  text-decoration: none;
-}
+.rtc-nav .rtc-brand img { height: 40px; width: auto; display: block; }
+.rtc-nav nav a { margin-left: 1.5rem; color: var(--ink); font-weight: 600; }
+.rtc-nav nav a:hover { color: var(--magenta); text-decoration: none; }
 
 .rtc-public-content {
   max-width: 720px;
@@ -119,7 +76,6 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   justify-content: center;
   padding: 3rem 1.5rem;
 }
-
 .rtc-auth-card {
   width: 100%;
   max-width: 360px;
@@ -128,14 +84,10 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
-
-.rtc-auth-card form {
-  max-width: none;
-  margin: 0;
-}
+.rtc-auth-card form { max-width: none; margin: 0; }
 
 /* ---------------------------------------------------------------------
---- Panel: shell con menú lateral
+   Panel: shell con menú lateral
    --------------------------------------------------------------------- */
 .rtc-shell {
   display: grid;
@@ -157,13 +109,9 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   gap: 0.5rem;
   padding: 0 0.5rem 1.4rem;
   margin-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
-
-.rtc-sidebar .rtc-brand img {
-  height: 34px;
-  width: auto;
-}
+.rtc-sidebar .rtc-brand img { height: 34px; width: auto; }
 
 .rtc-sidebar-nav {
   display: flex;
@@ -185,19 +133,12 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   cursor: pointer;
   width: 100%;
 }
-
-.rtc-sidebar-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.rtc-sidebar-btn.activo {
-  background: var(--magenta);
-  color: white;
-}
+.rtc-sidebar-btn:hover { background: rgba(255,255,255,0.08); }
+.rtc-sidebar-btn.activo { background: var(--magenta); color: white; }
 
 .rtc-sidebar-logout {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255,255,255,0.25);
   color: var(--sidebar-text);
   border-radius: 999px;
   padding: 0.5rem 1rem;
@@ -206,11 +147,7 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   cursor: pointer;
   margin-top: 1rem;
 }
-
-.rtc-sidebar-logout:hover {
-  border-color: var(--magenta);
-  color: white;
-}
+.rtc-sidebar-logout:hover { border-color: var(--magenta); color: white; }
 
 .rtc-main {
   padding: 1.8rem 2.2rem 3rem;
@@ -226,15 +163,8 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   border-bottom: 1px solid var(--line);
 }
 
-.rtc-topbar h1 {
-  margin: 0;
-  font-size: 1.4rem;
-}
-
-.rtc-topbar p {
-  margin: 0.2rem 0 0;
-  font-size: 0.88rem;
-}
+.rtc-topbar h1 { margin: 0; font-size: 1.4rem; }
+.rtc-topbar p { margin: 0.2rem 0 0; font-size: 0.88rem; }
 
 .rtc-card {
   background: var(--surface);
@@ -245,27 +175,11 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
 }
 
 @media (max-width: 720px) {
-  .rtc-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .rtc-sidebar {
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
-  }
-
-  .rtc-sidebar .rtc-brand {
-    display: none;
-  }
-
-  .rtc-sidebar-nav {
-    flex-direction: row;
-  }
-
-  .rtc-main {
-    padding: 1.4rem;
-  }
+  .rtc-shell { grid-template-columns: 1fr; }
+  .rtc-sidebar { flex-direction: row; align-items: center; overflow-x: auto; }
+  .rtc-sidebar .rtc-brand { display: none; }
+  .rtc-sidebar-nav { flex-direction: row; }
+  .rtc-main { padding: 1.4rem; }
 }
 
 /* ---------------------------------------------------------------------
@@ -287,9 +201,7 @@ label {
   color: var(--ink);
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
   font-family: 'Nunito', sans-serif;
   font-size: 0.95rem;
   padding: 0.55rem 0.7rem;
@@ -298,19 +210,32 @@ textarea {
   background: var(--surface);
   color: var(--ink);
 }
-
-input:focus,
-select:focus,
-textarea:focus {
+input:focus, select:focus, textarea:focus {
   outline: 2px solid var(--magenta);
   outline-offset: 1px;
   border-color: var(--magenta);
 }
+input[type="file"] { padding: 0.4rem 0.5rem; font-size: 0.85rem; }
 
-input[type="file"] {
-  padding: 0.4rem 0.5rem;
-  font-size: 0.85rem;
+/* Input de contraseña con botón de ojito para mostrar/ocultar */
+.rtc-input-con-icono {
+  position: relative;
+  display: flex;
 }
+.rtc-input-con-icono input { flex: 1; padding-right: 2.4rem; }
+.rtc-icono-input {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0.2rem;
+  width: auto;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.rtc-icono-input:hover { background: transparent; color: var(--magenta-dark); }
 
 button {
   font-family: 'Nunito', sans-serif;
@@ -325,16 +250,8 @@ button {
   width: fit-content;
   transition: background-color 0.15s ease;
 }
-
-button:hover {
-  background: var(--magenta-dark);
-}
-
-button:disabled {
-  background: var(--line);
-  color: var(--ink-soft);
-  cursor: not-allowed;
-}
+button:hover { background: var(--magenta-dark); }
+button:disabled { background: var(--line); color: var(--ink-soft); cursor: not-allowed; }
 
 .rtc-btn-secundario {
   background: var(--surface);
@@ -343,10 +260,7 @@ button:disabled {
   padding: 0.35rem 0.8rem;
   font-size: 0.82rem;
 }
-
-.rtc-btn-secundario:hover {
-  background: var(--surface-tint);
-}
+.rtc-btn-secundario:hover { background: var(--surface-tint); }
 
 .rtc-btn-peligro {
   background: var(--surface);
@@ -355,10 +269,7 @@ button:disabled {
   padding: 0.35rem 0.8rem;
   font-size: 0.82rem;
 }
-
-.rtc-btn-peligro:hover {
-  background: #FBE7EC;
-}
+.rtc-btn-peligro:hover { background: #FBE7EC; }
 
 /* ---------------------------------------------------------------------
    Toolbar de acciones (arriba de una tabla, se habilita con selección)
@@ -382,43 +293,21 @@ button:disabled {
   color: var(--magenta-dark);
   border: 1px solid var(--magenta);
 }
-
-.rtc-icon-btn--secundario:hover:not(:disabled) {
-  background: var(--surface-tint);
-}
-
-.rtc-icon-btn--secundario:disabled {
-  background: var(--surface);
-  border-color: var(--line);
-  color: var(--ink-soft);
-}
+.rtc-icon-btn--secundario:hover:not(:disabled) { background: var(--surface-tint); }
+.rtc-icon-btn--secundario:disabled { background: var(--surface); border-color: var(--line); color: var(--ink-soft); }
 
 .rtc-icon-btn--peligro {
   background: var(--surface);
   color: #C0335A;
   border: 1px solid #C0335A;
 }
-
-.rtc-icon-btn--peligro:hover:not(:disabled) {
-  background: #FBE7EC;
-}
-
-.rtc-icon-btn--peligro:disabled {
-  background: var(--surface);
-  border-color: var(--line);
-  color: var(--ink-soft);
-}
+.rtc-icon-btn--peligro:hover:not(:disabled) { background: #FBE7EC; }
+.rtc-icon-btn--peligro:disabled { background: var(--surface); border-color: var(--line); color: var(--ink-soft); }
 
 /* ---------------------------------------------------------------------
    Tablas
    --------------------------------------------------------------------- */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
-}
-
+table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; font-size: 0.9rem; }
 thead th {
   text-align: left;
   background: var(--surface-tint);
@@ -429,54 +318,23 @@ thead th {
   padding: 0.6rem 0.7rem;
   border-bottom: 2px solid var(--line);
 }
-
-tbody td {
-  padding: 0.6rem 0.7rem;
-  border-bottom: 1px solid var(--line);
-  color: var(--ink);
-}
-
-tbody tr {
-  cursor: pointer;
-}
-
-tbody tr:hover {
-  background: var(--surface-tint);
-}
-
-tbody tr.rtc-fila-seleccionada {
-  background: var(--surface-tint);
-}
-
-tbody tr.rtc-fila-seleccionada td:first-child {
-  border-left: 3px solid var(--magenta);
-}
-
-table button {
-  margin-right: 0.4rem;
-}
+tbody td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line); color: var(--ink); }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--surface-tint); }
+tbody tr.rtc-fila-seleccionada { background: var(--surface-tint); }
+tbody tr.rtc-fila-seleccionada td:first-child { border-left: 3px solid var(--magenta); }
+table button { margin-right: 0.4rem; }
 
 /* ---------------------------------------------------------------------
    Ficha de miembro (pestañas)
    --------------------------------------------------------------------- */
-.rtc-ficha {
-  width: min(100%, 1080px);
-  padding: 1.75rem 2rem 2rem;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface);
-}
-
 .rtc-ficha-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
-
-.rtc-ficha-header h3 {
-  margin: 0;
-}
+.rtc-ficha-header h3 { margin: 0; }
 
 .rtc-tabs {
   display: flex;
@@ -496,51 +354,100 @@ table button {
   margin-right: 1rem;
   font-size: 0.88rem;
 }
+.rtc-tab-btn:hover { background: transparent; color: var(--magenta-dark); }
+.rtc-tab-btn.activo { color: var(--magenta-dark); border-bottom-color: var(--magenta); font-weight: 700; }
 
-.rtc-tab-btn:hover {
-  background: transparent;
+/* ---------------------------------------------------------------------
+   Tesorería
+   --------------------------------------------------------------------- */
+.rtc-tesoreria-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.rtc-tesoreria-header h2 { margin-bottom: 0.2rem; }
+.rtc-tesoreria-header label { min-width: 220px; }
+
+.rtc-tesoreria-mensaje {
+  background: var(--surface-tint);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
   color: var(--magenta-dark);
+  font-weight: 600;
 }
 
-.rtc-tab-btn.activo {
+.rtc-tesoreria-periodo {
   color: var(--magenta-dark);
-  border-bottom-color: var(--magenta);
-  font-weight: 700;
+  margin-top: 1.5rem;
 }
 
-.rtc-cuotas-periodo {
-  margin: 1.35rem 0 0.45rem;
-  color: var(--magenta-dark);
-  font-size: 1.05rem;
+.rtc-tesoreria-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0 1.4rem;
 }
-
-.rtc-cuotas-periodo:first-child {
-  margin-top: 0;
+.rtc-tesoreria-resumen article {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
 }
-
-.rtc-cuotas-semestre {
-  margin: 0.15rem 0;
+.rtc-tesoreria-resumen span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
 }
-
-.rtc-cuotas-resumen {
-  cursor: pointer;
+.rtc-tesoreria-resumen strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
   color: var(--ink);
-  font-size: 1.05rem;
-  line-height: 1.5;
 }
 
-.rtc-cuotas-semestre[open] > .rtc-cuotas-resumen {
-  margin-bottom: 0.8rem;
+.rtc-tesoreria-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
 }
+.rtc-tesoreria-filtros input { flex: 1; min-width: 200px; max-width: 320px; }
 
-@media (max-width: 600px) {
-  .rtc-ficha {
-    padding: 1.25rem 1rem 1.5rem;
-  }
+.rtc-tabla-scroll { overflow-x: auto; }
+.rtc-tabla-tesoreria { min-width: 640px; }
 
-  .rtc-cuotas-resumen {
-    font-size: 0.95rem;
-  }
+.rtc-badge--proxima { background: var(--surface-tint); color: var(--magenta-dark); }
+.rtc-badge--por-pagar { background: var(--warning-bg); color: var(--warning); }
+
+/* Modales (registrar pago / iniciar historial) */
+.rtc-modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 27, 47, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+.rtc-modal-tesoreria {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  max-width: 420px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.rtc-modal-tesoreria h3 { margin-top: 0; }
+.rtc-modal-acciones {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
 }
 
 /* ---------------------------------------------------------------------
@@ -554,149 +461,8 @@ table button {
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
 }
-
 .rtc-badge--activo,
-.rtc-badge--socio {
-  background: var(--success-bg);
-  color: var(--success);
-}
-
+.rtc-badge--socio { background: var(--success-bg); color: var(--success); }
 .rtc-badge--aspirante,
-.rtc-badge--pendiente {
-  background: var(--warning-bg);
-  color: var(--warning);
-}
-
-.rtc-badge--proxima {
-  background: var(--line);
-  color: var(--ink-soft);
-}
-
-.rtc-badge--por-pagar {
-  background: var(--warning-bg);
-  color: var(--warning);
-}
-
-.rtc-badge--atrasada {
-  background: #FCE4E4;
-  color: #A4262C;
-}
-
-.rtc-badge--inactivo {
-  background: var(--line);
-  color: var(--ink-soft);
-}
-
-.rtc-tesoreria-header {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.rtc-tesoreria-header h2,
-.rtc-tesoreria-header p {
-  margin: 0;
-}
-
-.rtc-tesoreria-header label {
-  min-width: min(100%, 280px);
-}
-
-.rtc-tesoreria-periodo {
-  color: var(--magenta-dark);
-  margin: 1.2rem 0 0.8rem;
-}
-
-.rtc-tesoreria-resumen {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
-  gap: 0.7rem;
-  margin: 1rem 0;
-}
-
-.rtc-tesoreria-resumen article {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.85rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.rtc-tesoreria-resumen article span {
-  color: var(--ink-soft);
-  font-size: 0.82rem;
-}
-
-.rtc-tesoreria-resumen article strong {
-  color: var(--ink);
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.05rem;
-}
-
-.rtc-tesoreria-filtros {
-  display: flex;
-  gap: 0.7rem;
-  margin: 1rem 0 0.6rem;
-}
-
-.rtc-tabla-scroll {
-  overflow-x: auto;
-}
-
-.rtc-tabla-tesoreria {
-  min-width: 720px;
-}
-
-.rtc-tesoreria-mensaje {
-  padding: 0.65rem 0.8rem;
-  border-radius: 8px;
-  background: #FCE4E4;
-  color: #A4262C;
-}
-
-.rtc-modal-fondo {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: 1rem;
-  background: rgb(36 27 47 / 45%);
-}
-
-.rtc-modal-tesoreria {
-  width: min(100%, 440px);
-  max-width: none;
-  padding: 1.5rem;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--surface);
-  box-shadow: 0 16px 50px rgb(36 27 47 / 20%);
-}
-
-.rtc-modal-tesoreria h3 {
-  margin-top: 0;
-}
-
-.rtc-modal-tesoreria p {
-  margin: 0.4rem 0;
-}
-
-.rtc-modal-acciones {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.6rem;
-  margin-top: 1.2rem;
-}
-
-@media (max-width: 600px) {
-  .rtc-tesoreria-header,
-  .rtc-tesoreria-filtros {
-    align-items: stretch;
-    flex-direction: column;
-  }
-}
+.rtc-badge--pendiente { background: var(--warning-bg); color: var(--warning); }
+.rtc-badge--inactivo { background: var(--line); color: var(--ink-soft); }

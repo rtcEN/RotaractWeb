@@ -28,6 +28,15 @@ function etiquetaPeriodo(periodo) {
     return `${MESES[periodo.mes - 1]} ${periodo.anio} · Período ${periodo.anio_inicio}–${periodo.anio_inicio + 1}`
 }
 
+// Compartida entre la generación individual y la masiva: busca, dentro
+// del historial de un miembro, qué calidad tenía vigente en un mes dado.
+function calidadVigenteEnMes(historial, periodo) {
+    const mes = `${periodo.anio}-${String(periodo.mes).padStart(2, '0')}`
+    return (historial || [])
+        .filter((h) => h.fecha_desde?.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))
+        .sort((a, b) => b.fecha_desde.localeCompare(a.fecha_desde))[0]?.calidad
+}
+
 export default function Tesoreria() {
     const [periodos, setPeriodos] = useState([])
     const [idPeriodo, setIdPeriodo] = useState('')
@@ -47,6 +56,7 @@ export default function Tesoreria() {
     const [fechaInicioCalidad, setFechaInicioCalidad] = useState('')
     const [fechaCambioCalidad, setFechaCambioCalidad] = useState('')
     const [guardandoHistorial, setGuardandoHistorial] = useState(false)
+    const [generandoTodas, setGenerandoTodas] = useState(false)
 
     useEffect(() => {
         cargarPeriodos()
@@ -147,7 +157,6 @@ export default function Tesoreria() {
             if (fila.estado.id === 'sin-generar') totales.sinGenerar += 1
             return totales
         }
-        totales.total += Number(fila.cuota.monto_generado) || 0
         if (fila.estado.id === 'pagada') {
             totales.pagadas += 1
             totales.recaudado += Number(fila.cuota.monto_generado) || 0
@@ -155,7 +164,7 @@ export default function Tesoreria() {
         else if (fila.estado.id === 'atrasada') totales.atrasadas += 1
         else if (fila.estado.id === 'proxima') totales.proximas += 1
         return totales
-    }, { total: 0, recaudado: 0, pagadas: 0, porPagar: 0, atrasadas: 0, proximas: 0, sinGenerar: 0 }), [filas])
+    }, { recaudado: 0, pagadas: 0, porPagar: 0, atrasadas: 0, proximas: 0, sinGenerar: 0 }), [filas])
 
     const filasVisibles = filas.filter(({ miembro, estado }) => {
         const coincideNombre = !busqueda || miembro?.nombre_miembro?.toLowerCase().includes(busqueda.toLowerCase())
@@ -191,10 +200,7 @@ export default function Tesoreria() {
             return
         }
 
-        const mes = `${periodoSeleccionado.anio}-${String(periodoSeleccionado.mes).padStart(2, '0')}`
-        const calidad = (historial || [])
-            .filter((h) => h.fecha_desde?.slice(0, 7) <= mes && (!h.fecha_hasta || h.fecha_hasta.slice(0, 7) >= mes))
-            .sort((a, b) => b.fecha_desde.localeCompare(a.fecha_desde))[0]?.calidad
+        const calidad = calidadVigenteEnMes(historial, periodoSeleccionado)
         if (!['A', 'S'].includes(calidad)) {
             setMensaje(`No se generaron cuotas para ${persona.nombre_miembro}: falta un historial A o S válido para ${MESES[periodoSeleccionado.mes - 1]} ${periodoSeleccionado.anio}.`)
             setGenerandoMiembro(null)
@@ -314,7 +320,6 @@ export default function Tesoreria() {
                     <article><span>Próximas</span><strong>{resumen.proximas}</strong></article>
                     <article><span>Sin generar</span><strong>{resumen.sinGenerar}</strong></article>
                     <article><span>Recaudado</span><strong>Gs. {resumen.recaudado.toLocaleString('es-PY')}</strong></article>
-                    <article><span>Total del período</span><strong>Gs. {resumen.total.toLocaleString('es-PY')}</strong></article>
                 </div>
 
                 <div className="rtc-tesoreria-filtros">

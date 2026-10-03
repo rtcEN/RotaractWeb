@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
 import { supabase } from '../supabaseClient'
 
 export default function Login({ onLoginExitoso }) {
   const [correo, setCorreo] = useState('')
   const [password, setPassword] = useState('')
+  const [mostrarPassword, setMostrarPassword] = useState(false)
   const [error, setError] = useState(null)
   const [cargando, setCargando] = useState(false)
 
@@ -51,7 +53,23 @@ export default function Login({ onLoginExitoso }) {
 
           <label>
             Contraseña
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <div className="rtc-input-con-icono">
+              <input
+                type={mostrarPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="rtc-icono-input"
+                onClick={() => setMostrarPassword((valor) => !valor)}
+                title={mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                tabIndex={-1}
+              >
+                {mostrarPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </label>
 
           <button type="submit" disabled={cargando}>
