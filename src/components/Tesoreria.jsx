@@ -317,7 +317,6 @@ export default function Tesoreria() {
                     <article><span>Pagaron</span><strong>{resumen.pagadas}</strong></article>
                     <article><span>Por pagar</span><strong>{resumen.porPagar}</strong></article>
                     <article><span>Atrasadas</span><strong>{resumen.atrasadas}</strong></article>
-                    <article><span>Próximas</span><strong>{resumen.proximas}</strong></article>
                     <article><span>Sin generar</span><strong>{resumen.sinGenerar}</strong></article>
                     <article><span>Recaudado</span><strong>Gs. {resumen.recaudado.toLocaleString('es-PY')}</strong></article>
                 </div>
