@@ -236,6 +236,32 @@ Nav pública (Inicio / Iniciar sesión) — páginas sin panel
   font-size: 0.88rem;
 }
 
+.rtc-topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rtc-avatar {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--line);
+  background: var(--surface-tint);
+}
+
+.rtc-avatar--iniciales {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--magenta-dark);
+}
+
 .rtc-card {
   background: var(--surface);
   border: 1px solid var(--line);
