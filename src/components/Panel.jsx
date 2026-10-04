@@ -11,6 +11,34 @@ import Tesoreria from './Tesoreria'
 
 const NOMBRES_CALIDAD = { A: 'Aspirante', S: 'Socio', H: 'Honorario' }
 
+function iniciales(nombre) {
+  const partes = (nombre || '').trim().split(/\s+/).filter(Boolean)
+  if (partes.length === 0) return '?'
+  const primera = partes[0][0]
+  const ultima = partes.length > 1 ? partes[partes.length - 1][0] : ''
+  return (primera + ultima).toUpperCase()
+}
+
+function Avatar({ nombre, fotoUrl }) {
+  const [falla, setFalla] = useState(false)
+
+  if (fotoUrl && !falla) {
+    return (
+      <img
+        className="rtc-avatar"
+        src={fotoUrl}
+        alt={`Foto de ${nombre}`}
+        onError={() => setFalla(true)}
+      />
+    )
+  }
+  return (
+    <div className="rtc-avatar rtc-avatar--iniciales" aria-label={`Avatar de ${nombre}`}>
+      {iniciales(nombre)}
+    </div>
+  )
+}
+
 export default function Panel({ miembro, onLogout }) {
   const seccionesAdmin = [
     { id: 'inicio', label: 'Inicio' },
@@ -56,6 +84,18 @@ export default function Panel({ miembro, onLogout }) {
 
       <main className="rtc-main">
         <div className="rtc-topbar">
+          <div className="rtc-topbar-user">
+            <Avatar key={miembro.foto_url} nombre={miembro.nombre_miembro} fotoUrl={miembro.foto_url} />
+            <div>
+              <h1>Hola, {miembro.nombre_miembro}</h1>
+              <p>
+                {NOMBRES_CALIDAD[miembro.calidad]} · {miembro.estado_miembro === 'A' ? 'Activo' : 'Inactivo'}
+                {miembro.es_admin ? ' · Administrador' : ''}
+              </p>
+            </div>
+          </div>
+        </div>
+        {/*   <div className="rtc-topbar">
           <div>
             <h1>Hola, {miembro.nombre_miembro}</h1>
             <p>
@@ -64,7 +104,7 @@ export default function Panel({ miembro, onLogout }) {
             </p>
           </div>
         </div>
-
+*/}
         {seccionActiva === 'inicio' && (
           <div className="rtc-card">
             <p>Correo: {miembro.correo_miembro}</p>
@@ -100,6 +140,6 @@ export default function Panel({ miembro, onLogout }) {
           </div>
         )}
       </main>
-    </div>
+    </div >
   )
 }
