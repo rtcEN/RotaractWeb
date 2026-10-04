@@ -1,45 +1,123 @@
 /* =====================================================================
-   Rotaract Encarnación Norte — estilos base
+   ROTARACT ENCARNACIÓN NORTE
+   APP.CSS
+   Diseño moderno · amigable · institucional
    ===================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
+
+
+/* =====================================================================
+   VARIABLES
+   ===================================================================== */
 
 :root {
   --magenta: #E31C79;
   --magenta-dark: #A81257;
+  --magenta-light: #FCE9F1;
+
+  --lila: #B48AE6;
+  --lila-light: #F2EBFA;
+
   --ink: #241B2F;
   --ink-soft: #6B6072;
-  --bg: #FFFBFC;
+  --ink-light: #A39AA5;
+
+  --bg: #FCF8FB;
   --surface: #FFFFFF;
   --surface-tint: #FCE9F1;
+
   --sidebar-bg: #2B1B2E;
+  --sidebar-light: #38253C;
   --sidebar-text: #E9D9E4;
+  --sidebar-muted: #BBAEB9;
+
   --line: #F0D7E4;
+  --line-light: #F7EAF0;
+
   --success: #2F8F5B;
   --success-bg: #E4F4EB;
+
   --warning: #C98A1D;
   --warning-bg: #FBF0DC;
-  --radius: 10px;
+
+  --danger: #C0335A;
+  --danger-bg: #FBE7EC;
+
+  --radius: 16px;
+  --radius-small: 11px;
+
+  --shadow:
+    0 8px 25px rgba(43, 27, 46, 0.055);
+
+  --shadow-hover:
+    0 14px 35px rgba(43, 27, 46, 0.09);
+}
+
+
+/* =====================================================================
+   RESET
+   ===================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--bg);
+  margin: 0;
+
+  min-width: 320px;
+
+  background:
+    radial-gradient(circle at 10% 0%,
+      rgba(227, 28, 121, 0.035),
+      transparent 28%),
+    var(--bg);
+
   color: var(--ink);
+
   font-family: 'Nunito', sans-serif;
+
   font-size: 16px;
+
   line-height: 1.5;
+
   text-align: left;
 }
+
+button,
+input,
+select,
+textarea {
+  font-family: 'Nunito', sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+/* =====================================================================
+   TIPOGRAFÍA
+   ===================================================================== */
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.25;
   margin: 0 0 0.4em;
+
+  font-family: 'Poppins', sans-serif;
+
+  font-weight: 700;
+
+  color: var(--ink);
+
+  line-height: 1.25;
 }
 
 h1 {
@@ -52,6 +130,7 @@ h2 {
 
 h3 {
   font-size: 1.05rem;
+
   margin: 2rem 0 0.9rem;
 }
 
@@ -61,341 +140,655 @@ h3:first-child {
 
 h4 {
   font-size: 0.95rem;
+
   color: var(--magenta-dark);
 }
 
 p {
-  color: var(--ink-soft);
   margin: 0 0 0.5rem;
+
+  color: var(--ink-soft);
 }
 
 a {
   color: var(--magenta-dark);
+
   text-decoration: none;
+
   font-weight: 600;
 }
 
 a:hover {
+  color: var(--magenta);
+
   text-decoration: underline;
 }
 
-/* ---------------------------------------------------------------------
-   Nav pública (Inicio / Iniciar sesión) — páginas sin panel
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   NAVEGACIÓN PÚBLICA
+   ===================================================================== */
+
 .rtc-nav {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
+
   padding: 0.9rem 1.5rem;
-  background: var(--surface);
-  border-bottom: 3px solid var(--magenta);
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-bottom: 1px solid var(--line);
+
+  box-shadow:
+    0 3px 18px rgba(43, 27, 46, 0.035);
 }
 
 .rtc-nav .rtc-brand img {
   height: 40px;
+
   width: auto;
+
   display: block;
 }
 
+.rtc-nav nav {
+  display: flex;
+
+  align-items: center;
+
+  gap: 1.5rem;
+}
+
 .rtc-nav nav a {
-  margin-left: 1.5rem;
   color: var(--ink);
+
   font-weight: 600;
 }
 
 .rtc-nav nav a:hover {
   color: var(--magenta);
+
   text-decoration: none;
 }
 
+
+/* =====================================================================
+   CONTENIDO PÚBLICO
+   ===================================================================== */
+
 .rtc-public-content {
-  max-width: 720px;
+  width: 100%;
+
+  max-width: 900px;
+
   margin: 0 auto;
+
   padding: 3rem 1.5rem;
 }
 
 .rtc-auth-page {
+  min-height: 100vh;
+
   display: flex;
+
+  align-items: center;
   justify-content: center;
-  padding: 3rem 1.5rem;
+
+  padding: 2rem;
+
+  background:
+    radial-gradient(circle at 20% 20%,
+      rgba(227, 28, 121, 0.07),
+      transparent 28%),
+    var(--bg);
 }
 
 .rtc-auth-card {
   width: 100%;
-  max-width: 360px;
-  padding: 2rem;
+
+  max-width: 400px;
+
+  padding: 2.3rem;
+
   background: var(--surface);
+
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+
+  border-radius: 22px;
+
+  box-shadow: var(--shadow);
 }
 
 .rtc-auth-card form {
   max-width: none;
+
   margin: 0;
 }
 
-/* ---------------------------------------------------------------------
-   Panel: shell con menú lateral
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   PANEL PRINCIPAL
+   ===================================================================== */
+
 .rtc-shell {
-  display: grid;
-  grid-template-columns: 230px 1fr;
   min-height: 100vh;
+
+  display: grid;
+
+  grid-template-columns: 255px minmax(0, 1fr);
+
+  background:
+    linear-gradient(135deg,
+      #FCF8FB 0%,
+      #FFF9FC 55%,
+      #F9F5FC 100%);
 }
+
+
+/* =====================================================================
+   SIDEBAR
+   ===================================================================== */
 
 .rtc-sidebar {
-  background: var(--sidebar-bg);
-  color: var(--sidebar-text);
-  padding: 1.4rem 1rem;
+  position: sticky;
+
+  top: 0;
+
+  height: 100vh;
+
+  padding: 1.3rem 0.9rem;
+
   display: flex;
+
   flex-direction: column;
+
+  color: var(--sidebar-text);
+
+  background:
+    linear-gradient(180deg,
+      #2B1B2E 0%,
+      #291A2D 60%,
+      #251827 100%);
+
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+
+  box-shadow:
+    5px 0 25px rgba(43, 27, 46, 0.04);
 }
 
+
+/* Marca del sidebar */
+
 .rtc-sidebar .rtc-brand {
+  min-height: 82px;
+
   display: flex;
+
   align-items: center;
-  gap: 0.5rem;
-  padding: 0 0.5rem 1.4rem;
-  margin-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  justify-content: center;
+
+  padding: 0.3rem 0.5rem 1.2rem;
+
+  margin-bottom: 1.3rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
 
 .rtc-sidebar .rtc-brand img {
-  height: 34px;
+  height: 58px;
+
   width: auto;
+
+  max-width: 180px;
+
+  object-fit: contain;
 }
 
+
+/* Navegación */
+
 .rtc-sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
   flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.3rem;
 }
 
 .rtc-sidebar-btn {
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  color: var(--sidebar-text);
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  font-size: 0.92rem;
-  text-align: left;
-  padding: 0.6rem 0.8rem;
-  cursor: pointer;
+  position: relative;
+
   width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.65rem;
+
+  padding: 0.78rem 0.9rem;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: var(--sidebar-text);
+
+  font-size: 0.91rem;
+
+  font-weight: 700;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .rtc-sidebar-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.075);
+
+  color: white;
+
+  transform: translateX(2px);
 }
 
 .rtc-sidebar-btn.activo {
-  background: var(--magenta);
+  background:
+    linear-gradient(135deg,
+      var(--magenta),
+      var(--magenta-dark));
+
   color: white;
+
+  box-shadow:
+    0 8px 20px rgba(227, 28, 121, 0.22);
 }
 
+.rtc-sidebar-btn.activo::before {
+  content: '';
+
+  position: absolute;
+
+  left: -0.9rem;
+
+  width: 4px;
+  height: 25px;
+
+  border-radius: 0 5px 5px 0;
+
+  background: #FFB6D5;
+}
+
+
+/* Cerrar sesión */
+
 .rtc-sidebar-logout {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: var(--sidebar-text);
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
+  width: 100%;
+
   margin-top: 1rem;
+
+  padding: 0.68rem 1rem;
+
+  border-radius: 11px;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.035);
+
+  color: var(--sidebar-text);
+
+  font-size: 0.85rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .rtc-sidebar-logout:hover {
-  border-color: var(--magenta);
+  background: rgba(227, 28, 121, 0.14);
+
+  border-color: rgba(227, 28, 121, 0.4);
+
   color: white;
 }
 
+
+/* =====================================================================
+   CONTENIDO PRINCIPAL
+   ===================================================================== */
+
 .rtc-main {
-  padding: 1.8rem 2.2rem 3rem;
-  max-width: 900px;
+  width: 100%;
+
+  max-width: 1250px;
+
+  padding: 2rem 2.7rem 3.5rem;
 }
+
+
+/* =====================================================================
+   TOPBAR
+   ===================================================================== */
 
 .rtc-topbar {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
+
   margin-bottom: 1.8rem;
-  padding-bottom: 1.2rem;
+
+  padding: 0.3rem 0 1.4rem;
+
   border-bottom: 1px solid var(--line);
-}
-
-.rtc-topbar h1 {
-  margin: 0;
-  font-size: 1.4rem;
-}
-
-.rtc-topbar p {
-  margin: 0.2rem 0 0;
-  font-size: 0.88rem;
 }
 
 .rtc-topbar-user {
   display: flex;
+
   align-items: center;
+
   gap: 1rem;
 }
 
+.rtc-topbar h1 {
+  margin: 0;
+
+  font-size: 1.55rem;
+
+  letter-spacing: -0.4px;
+}
+
+.rtc-topbar p {
+  margin: 0.25rem 0 0;
+
+  color: var(--ink-soft);
+
+  font-size: 0.88rem;
+}
+
+
+/* =====================================================================
+   AVATAR
+   ===================================================================== */
+
 .rtc-avatar {
-  width: 64px;
-  height: 64px;
+  width: 62px;
+  height: 62px;
+
   flex-shrink: 0;
-  border-radius: 50%;
+
   object-fit: cover;
-  border: 2px solid var(--line);
+
+  border-radius: 50%;
+
+  border: 3px solid white;
+
   background: var(--surface-tint);
+
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 6px 18px rgba(43, 27, 46, 0.08);
 }
 
 .rtc-avatar--iniciales {
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   font-family: 'Poppins', sans-serif;
+
   font-weight: 700;
-  font-size: 1.3rem;
+
+  font-size: 1.15rem;
+
   color: var(--magenta-dark);
+
+  background:
+    linear-gradient(135deg,
+      #FBE4EF,
+      #F0E7F8);
 }
+
+
+/* =====================================================================
+   CARDS
+   ===================================================================== */
 
 .rtc-card {
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.96);
+
   border: 1px solid var(--line);
+
   border-radius: var(--radius);
-  padding: 1.4rem 1.6rem;
-  margin-bottom: 1.6rem;
+
+  padding: 1.5rem;
+
+  margin-bottom: 1.5rem;
+
+  box-shadow: var(--shadow);
+
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
-@media (max-width: 720px) {
-  .rtc-shell {
-    grid-template-columns: 1fr;
-  }
+.rtc-card:hover {
+  border-color: #EBD0DD;
 
-  .rtc-sidebar {
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
-  }
-
-  .rtc-sidebar .rtc-brand {
-    display: none;
-  }
-
-  .rtc-sidebar-nav {
-    flex-direction: row;
-  }
-
-  .rtc-main {
-    padding: 1.4rem;
-  }
+  box-shadow:
+    0 11px 30px rgba(43, 27, 46, 0.065);
 }
 
-/* ---------------------------------------------------------------------
-   Formularios
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   FORMULARIOS GENERALES
+   ===================================================================== */
+
 form {
   display: flex;
+
   flex-direction: column;
-  gap: 0.9rem;
-  max-width: 420px;
+
+  gap: 0.95rem;
+
+  max-width: 500px;
 }
 
 label {
   display: flex;
+
   flex-direction: column;
-  gap: 0.3rem;
-  font-weight: 600;
+
+  gap: 0.4rem;
+
+  font-weight: 700;
+
   font-size: 0.88rem;
+
   color: var(--ink);
 }
 
 input,
 select,
 textarea {
+  width: 100%;
+
   font-family: 'Nunito', sans-serif;
+
   font-size: 0.95rem;
-  padding: 0.55rem 0.7rem;
+
+  padding: 0.7rem 0.85rem;
+
   border: 1px solid var(--line);
-  border-radius: 8px;
+
+  border-radius: 11px;
+
   background: var(--surface);
+
   color: var(--ink);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: #DDBFD0;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid var(--magenta);
-  outline-offset: 1px;
+  outline: none;
+
   border-color: var(--magenta);
+
+  box-shadow:
+    0 0 0 4px rgba(227, 28, 121, 0.07);
 }
 
-input[type="file"] {
-  padding: 0.4rem 0.5rem;
+textarea {
+  min-height: 100px;
+
+  resize: vertical;
+}
+
+input[type='file'] {
+  padding: 0.45rem 0.55rem;
+
   font-size: 0.85rem;
 }
 
-/* Input de contraseña con botón de ojito para mostrar/ocultar */
+
+/* =====================================================================
+   INPUT CON ICONO
+   ===================================================================== */
+
 .rtc-input-con-icono {
   position: relative;
+
   display: flex;
 }
 
 .rtc-input-con-icono input {
   flex: 1;
-  padding-right: 2.4rem;
+
+  padding-right: 2.7rem;
 }
 
 .rtc-icono-input {
   position: absolute;
-  right: 0.5rem;
+
+  right: 0.45rem;
+
   top: 50%;
+
   transform: translateY(-50%);
-  background: transparent;
+
+  width: 34px;
+
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
   border: none;
-  padding: 0.2rem;
-  width: auto;
+
+  border-radius: 9px;
+
+  background: transparent;
+
   color: var(--ink-soft);
+
   cursor: pointer;
 }
 
 .rtc-icono-input:hover {
-  background: transparent;
+  background: var(--surface-tint);
+
   color: var(--magenta-dark);
 }
 
+
+/* =====================================================================
+   BOTONES GENERALES
+   ===================================================================== */
+
 button {
   font-family: 'Nunito', sans-serif;
+
   font-weight: 700;
+
   font-size: 0.92rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 999px;
+
+  padding: 0.65rem 1.15rem;
+
+  border-radius: 11px;
+
   border: none;
+
   background: var(--magenta);
+
   color: white;
+
   cursor: pointer;
-  width: fit-content;
-  transition: background-color 0.15s ease;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 button:hover {
   background: var(--magenta-dark);
 }
 
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
 button:disabled {
   background: var(--line);
+
   color: var(--ink-soft);
+
   cursor: not-allowed;
 }
 
+
+/* Secundario */
+
 .rtc-btn-secundario {
   background: var(--surface);
+
   color: var(--magenta-dark);
+
   border: 1px solid var(--magenta);
-  padding: 0.35rem 0.8rem;
+
+  padding: 0.45rem 0.85rem;
+
   font-size: 0.82rem;
 }
 
@@ -403,38 +796,58 @@ button:disabled {
   background: var(--surface-tint);
 }
 
+
+/* Peligro */
+
 .rtc-btn-peligro {
   background: var(--surface);
-  color: #C0335A;
-  border: 1px solid #C0335A;
-  padding: 0.35rem 0.8rem;
+
+  color: var(--danger);
+
+  border: 1px solid var(--danger);
+
+  padding: 0.45rem 0.85rem;
+
   font-size: 0.82rem;
 }
 
 .rtc-btn-peligro:hover {
-  background: #FBE7EC;
+  background: var(--danger-bg);
 }
 
-/* ---------------------------------------------------------------------
-   Toolbar de acciones (arriba de una tabla, se habilita con selección)
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   TOOLBAR
+   ===================================================================== */
+
 .rtc-toolbar {
   display: flex;
+
+  flex-wrap: wrap;
+
   gap: 0.6rem;
-  margin-bottom: 0.8rem;
+
+  margin-bottom: 1rem;
 }
 
 .rtc-icon-btn {
   display: inline-flex;
+
   align-items: center;
+  justify-content: center;
+
   gap: 0.4rem;
-  padding: 0.5rem 1rem;
+
+  padding: 0.55rem 1rem;
+
   font-size: 0.85rem;
 }
 
 .rtc-icon-btn--secundario {
   background: var(--surface);
+
   color: var(--magenta-dark);
+
   border: 1px solid var(--magenta);
 }
 
@@ -444,62 +857,98 @@ button:disabled {
 
 .rtc-icon-btn--secundario:disabled {
   background: var(--surface);
+
   border-color: var(--line);
+
   color: var(--ink-soft);
 }
 
 .rtc-icon-btn--peligro {
   background: var(--surface);
-  color: #C0335A;
-  border: 1px solid #C0335A;
+
+  color: var(--danger);
+
+  border: 1px solid var(--danger);
 }
 
 .rtc-icon-btn--peligro:hover:not(:disabled) {
-  background: #FBE7EC;
+  background: var(--danger-bg);
 }
 
 .rtc-icon-btn--peligro:disabled {
   background: var(--surface);
+
   border-color: var(--line);
+
   color: var(--ink-soft);
 }
 
-/* ---------------------------------------------------------------------
-   Tablas
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   TABLAS
+   ===================================================================== */
+
 table {
   width: 100%;
-  border-collapse: collapse;
-  margin: 0.5rem 0;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+
+  margin: 0.7rem 0;
+
+  border: 1px solid var(--line);
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  background: white;
+
   font-size: 0.9rem;
 }
 
 thead th {
   text-align: left;
-  background: var(--surface-tint);
+
+  background: #FCF1F6;
+
   color: var(--magenta-dark);
+
   font-family: 'Poppins', sans-serif;
+
   font-weight: 600;
+
   font-size: 0.8rem;
-  padding: 0.6rem 0.7rem;
-  border-bottom: 2px solid var(--line);
+
+  padding: 0.8rem;
+
+  border-bottom: 1px solid var(--line);
 }
 
 tbody td {
-  padding: 0.6rem 0.7rem;
-  border-bottom: 1px solid var(--line);
+  padding: 0.78rem 0.8rem;
+
+  border-bottom: 1px solid var(--line-light);
+
   color: var(--ink);
 }
 
 tbody tr {
   cursor: pointer;
+
+  transition: background 0.15s ease;
 }
 
-tbody tr:hover {
-  background: var(--surface-tint);
+tbody tr:last-child td {
+  border-bottom: none;
 }
 
-tbody tr.rtc-fila-seleccionada {
+tbody tr:hover td {
+  background: #FFF9FC;
+}
+
+tbody tr.rtc-fila-seleccionada td {
   background: var(--surface-tint);
 }
 
@@ -511,13 +960,20 @@ table button {
   margin-right: 0.4rem;
 }
 
-/* ---------------------------------------------------------------------
-   Ficha de miembro (pestañas)
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   FICHA DE MIEMBRO
+   ===================================================================== */
+
 .rtc-ficha-header {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
+  gap: 1rem;
+
   margin-bottom: 1rem;
 }
 
@@ -527,43 +983,64 @@ table button {
 
 .rtc-tabs {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 0.3rem;
+
   border-bottom: 1px solid var(--line);
+
   margin-bottom: 1.2rem;
 }
 
 .rtc-tab-btn {
   background: transparent;
+
   color: var(--ink-soft);
+
   border: none;
+
   border-radius: 0;
+
   border-bottom: 2px solid transparent;
-  padding: 0.5rem 0.2rem;
+
+  padding: 0.6rem 0.2rem;
+
   margin-right: 1rem;
+
   font-size: 0.88rem;
 }
 
 .rtc-tab-btn:hover {
   background: transparent;
+
   color: var(--magenta-dark);
 }
 
 .rtc-tab-btn.activo {
   color: var(--magenta-dark);
+
   border-bottom-color: var(--magenta);
+
   font-weight: 700;
 }
 
-/* ---------------------------------------------------------------------
-   Tesorería
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   TESORERÍA
+   ===================================================================== */
+
 .rtc-tesoreria-header {
   display: flex;
+
   flex-wrap: wrap;
+
   align-items: flex-end;
+
   justify-content: space-between;
+
   gap: 1rem;
+
   margin-bottom: 0.5rem;
 }
 
@@ -577,55 +1054,80 @@ table button {
 
 .rtc-tesoreria-mensaje {
   background: var(--surface-tint);
+
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 0.7rem 1rem;
+
+  border-radius: 12px;
+
+  padding: 0.8rem 1rem;
+
   color: var(--magenta-dark);
-  font-weight: 600;
+
+  font-weight: 700;
 }
 
 .rtc-tesoreria-periodo {
   color: var(--magenta-dark);
+
   margin-top: 1.5rem;
 }
 
 .rtc-tesoreria-resumen {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 0.8rem;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(150px, 1fr));
+
+  gap: 0.9rem;
+
   margin: 1rem 0 1.4rem;
 }
 
 .rtc-tesoreria-resumen article {
-  background: var(--surface);
+  background: white;
+
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 0.9rem 1rem;
+
+  border-radius: 14px;
+
+  padding: 1rem;
+
+  box-shadow: var(--shadow);
 }
 
 .rtc-tesoreria-resumen span {
   display: block;
-  font-size: 0.78rem;
+
   color: var(--ink-soft);
-  margin-bottom: 0.3rem;
+
+  font-size: 0.78rem;
+
+  margin-bottom: 0.25rem;
 }
 
 .rtc-tesoreria-resumen strong {
   font-family: 'Poppins', sans-serif;
+
   font-size: 1.3rem;
+
   color: var(--ink);
 }
 
 .rtc-tesoreria-filtros {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 0.7rem;
+
   margin-bottom: 1rem;
 }
 
 .rtc-tesoreria-filtros input {
   flex: 1;
+
   min-width: 200px;
+
   max-width: 320px;
 }
 
@@ -637,76 +1139,473 @@ table button {
   min-width: 640px;
 }
 
-.rtc-badge--proxima {
-  background: var(--surface-tint);
-  color: var(--magenta-dark);
-}
 
-.rtc-badge--por-pagar {
-  background: var(--warning-bg);
-  color: var(--warning);
-}
+/* =====================================================================
+   MODALES
+   ===================================================================== */
 
-/* Modales (registrar pago / iniciar historial) */
 .rtc-modal-fondo {
   position: fixed;
+
   inset: 0;
-  background: rgba(36, 27, 47, 0.55);
+
+  z-index: 50;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   padding: 1rem;
-  z-index: 50;
+
+  background: rgba(36, 27, 47, 0.55);
+
+  backdrop-filter: blur(4px);
 }
 
 .rtc-modal-tesoreria {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 1.6rem;
-  max-width: 420px;
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
 
-.rtc-modal-tesoreria h3 {
-  margin-top: 0;
+  max-width: 440px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  padding: 1.7rem;
+
+  background: white;
+
+  border: 1px solid var(--line);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 25px 70px rgba(43, 27, 46, 0.18);
 }
 
 .rtc-modal-acciones {
   display: flex;
+
   gap: 0.6rem;
-  margin-top: 0.5rem;
+
+  margin-top: 0.8rem;
 }
 
-/* ---------------------------------------------------------------------
-   Píldoras de estado
-   --------------------------------------------------------------------- */
+
+/* =====================================================================
+   BADGES
+   ===================================================================== */
+
 .rtc-badge {
-  display: inline-block;
-  padding: 0.2rem 0.7rem;
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 0.25rem 0.7rem;
+
   border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
+
   font-family: 'Poppins', sans-serif;
+
+  font-size: 0.75rem;
+
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
 .rtc-badge--activo,
 .rtc-badge--socio {
   background: var(--success-bg);
+
   color: var(--success);
 }
 
 .rtc-badge--aspirante,
 .rtc-badge--pendiente {
   background: var(--warning-bg);
+
   color: var(--warning);
 }
 
 .rtc-badge--inactivo {
-  background: var(--line);
+  background: #F0ECEF;
+
   color: var(--ink-soft);
 }
+
+
+/* =====================================================================
+   INICIO ADMIN
+   ===================================================================== */
+
+.rtc-inicio-admin {
+  display: grid;
+
+  gap: 1.8rem;
+}
+
+.rtc-inicio-admin h4 {
+  margin: 0 0 0.8rem;
+
+  font-size: 0.96rem;
+}
+
+
+/* =====================================================================
+   KPIs
+   ===================================================================== */
+
+.rtc-kpis {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(190px, 1fr));
+
+  gap: 1rem;
+}
+
+.rtc-kpi {
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-height: 145px;
+
+  padding: 1.25rem;
+
+  overflow: hidden;
+
+  border: 1px solid var(--line);
+
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow: var(--shadow);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.rtc-kpi:hover {
+  transform: translateY(-3px);
+
+  box-shadow: var(--shadow-hover);
+}
+
+.rtc-kpi::after {
+  content: '';
+
+  position: absolute;
+
+  right: -25px;
+
+  bottom: -35px;
+
+  width: 100px;
+
+  height: 100px;
+
+  border-radius: 50%;
+
+  background: rgba(227, 28, 121, 0.035);
+}
+
+.rtc-kpi-titulo {
+  color: var(--ink-soft);
+
+  font-size: 0.82rem;
+
+  font-weight: 700;
+}
+
+.rtc-kpi-valor {
+  margin-top: 0.3rem;
+
+  color: var(--ink);
+
+  font-family: 'Poppins', sans-serif;
+
+  font-size: 2rem;
+
+  line-height: 1.1;
+}
+
+.rtc-kpi-detalle {
+  margin-top: 0.35rem;
+
+  color: var(--ink-soft);
+
+  font-size: 0.8rem;
+}
+
+.rtc-kpi-pie {
+  margin-top: auto;
+
+  padding-top: 0.7rem;
+}
+
+.rtc-kpi--alerta {
+  background:
+    linear-gradient(135deg,
+      #FFFFFF,
+      #FFF4F8);
+
+  border-color: #F0C8D8;
+}
+
+.rtc-kpi--alerta .rtc-kpi-valor {
+  color: var(--magenta-dark);
+}
+
+.rtc-kpi--ok .rtc-kpi-valor {
+  color: var(--success);
+}
+
+
+/* =====================================================================
+   ENLACES DEL DASHBOARD
+   ===================================================================== */
+
+button.rtc-enlace {
+  padding: 0;
+
+  border-radius: 4px;
+
+  background: transparent;
+
+  color: var(--magenta-dark);
+
+  font-size: 0.85rem;
+
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+}
+
+button.rtc-enlace:hover {
+  background: transparent;
+
+  color: var(--magenta);
+}
+
+
+/* =====================================================================
+   ACCIONES DEL DASHBOARD
+   ===================================================================== */
+
+.rtc-acciones {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(230px, 1fr));
+
+  gap: 1rem;
+}
+
+button.rtc-accion {
+  width: 100%;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 0.9rem;
+
+  padding: 1.1rem;
+
+  text-align: left;
+
+  border: 1px solid var(--line);
+
+  border-radius: 16px;
+
+  background: white;
+
+  color: var(--ink);
+
+  box-shadow: var(--shadow);
+
+  font-weight: 400;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+button.rtc-accion:hover {
+  transform: translateY(-3px);
+
+  border-color: #E7B8CE;
+
+  background: #FFF9FC;
+
+  box-shadow: var(--shadow-hover);
+}
+
+.rtc-accion-icono-caja {
+  width: 43px;
+
+  height: 43px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: var(--magenta-light);
+
+  color: var(--magenta-dark);
+}
+
+.rtc-accion-icono {
+  width: 20px;
+
+  height: 20px;
+}
+
+
+/* =====================================================================
+   EVENTOS
+   ===================================================================== */
+
+.rtc-eventos-card {
+  margin-bottom: 0;
+}
+
+.rtc-eventos-cab {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+
+  gap: 0.8rem;
+
+  margin-bottom: 0.4rem;
+}
+
+.rtc-eventos-cab h4 {
+  margin: 0;
+}
+
+.rtc-eventos {
+  list-style: none;
+
+  margin: 0;
+
+  padding: 0;
+}
+
+.rtc-evento {
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+
+  padding: 1rem 0;
+
+  border-top: 1px solid var(--line-light);
+}
+
+.rtc-evento:first-child {
+  border-top: none;
+}
+
+.rtc-evento-fecha {
+  width: 58px;
+
+  flex-shrink: 0;
+
+  padding: 0.5rem 0;
+
+  text-align: center;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(145deg,
+      #FBE4EF,
+      #F2EAF9);
+
+  color: var(--magenta-dark);
+
+  line-height: 1.05;
+}
+
+.rtc-evento-dia {
+  display: block;
+
+  font-family: 'Poppins', sans-serif;
+
+  font-size: 1.4rem;
+
+  font-weight: 700;
+}
+
+.rtc-evento-mes {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+}
+
+.rtc-evento-info {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.rtc-evento-nombre {
+  display: block;
+
+  color: var(--ink);
+
+  font-weight: 700;
+}
+
+.rtc-evento-detalle {
+  display: block;
+
+  color: var(--ink-soft);
+
+  font-size: 0.84rem;
+}
+
+.rtc-evento-tipo {
+  flex-shrink: 0;
+
+  padding: 0.25rem 0.7rem;
+
+  border-radius: 999px;
+
+  background: var(--lila-light);
+
+  color: #72509D;
+
+  font-size: 0.73rem;
+
+  font-weight: 700;
+}
+
+.rtc-vacio p {
+  margin-bottom: 0.8rem;
+}
+
 
 /* ================================================================
    LOGIN — ROTARACT ENCARNACIÓN NORTE
@@ -725,22 +1624,16 @@ table button {
   overflow: hidden;
 
   background:
-    radial-gradient(
-      circle at 10% 15%,
+    radial-gradient(circle at 10% 15%,
       rgba(227, 28, 121, 0.10),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 90% 85%,
+      transparent 25%),
+    radial-gradient(circle at 90% 85%,
       rgba(180, 138, 230, 0.14),
-      transparent 28%
-    ),
-    linear-gradient(
-      135deg,
+      transparent 28%),
+    linear-gradient(135deg,
       #fff9fc 0%,
       #fdf5fb 50%,
-      #f8f2ff 100%
-    );
+      #f8f2ff 100%);
 
   padding: 2rem;
 }
@@ -905,9 +1798,7 @@ table button {
   object-fit: contain;
 
   filter:
-    drop-shadow(
-      0 18px 18px rgba(43, 27, 46, 0.13)
-    );
+    drop-shadow(0 18px 18px rgba(43, 27, 46, 0.13));
 
 }
 
@@ -1004,7 +1895,8 @@ table button {
 
   box-sizing: border-box;
 
-  padding: 2.8rem 2.7rem;
+  padding: 1.5rem 2.7rem 2.7rem 2.6rem;
+  /* Reducido de 2.8rem a 1.8rem arriba */
 
   background: rgba(255, 255, 255, 0.96);
 
@@ -1029,7 +1921,7 @@ table button {
   justify-content: center;
   align-items: center;
 
-  margin: 0 0 1.8rem 0;
+  margin: 0 0 0.9rem 0;
 
   background: transparent;
   box-shadow: none;
@@ -1038,7 +1930,7 @@ table button {
 
 .rtc-login-logo img {
   width: 170px;
-  height: 170px;
+  height: 60px;
 
   object-fit: contain;
 
@@ -1282,11 +2174,9 @@ table button {
   border-radius: 13px;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #e31c79,
-      #b80f5b
-    );
+      #b80f5b);
 
   color: white;
 
@@ -1314,11 +2204,9 @@ table button {
     0 13px 25px rgba(227, 28, 121, 0.28);
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #d81870,
-      #a80d52
-    );
+      #a80d52);
 }
 
 .rtc-login-submit:active:not(:disabled) {
@@ -1502,248 +2390,127 @@ table button {
 }
 
 
-/* ---------------------------------------------------------------------
-   Inicio del administrador
-   --------------------------------------------------------------------- */
-.rtc-inicio-admin {
-  display: grid;
-  gap: 1.8rem;
-}
 
-.rtc-inicio-admin h4 {
-  margin: 0 0 0.8rem;
-}
+/* =====================================================================
+   PANEL — CELULAR
+   ===================================================================== */
 
-/* Tarjetas de resumen */
-.rtc-kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 0.9rem;
-}
+@media (max-width: 520px) {
 
-.rtc-kpi {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 1.1rem 1.2rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
+  .rtc-card {
+    padding: 1.1rem;
 
-.rtc-kpi-titulo {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
+    border-radius: 15px;
+  }
 
-.rtc-kpi-valor {
-  font-family: 'Poppins', sans-serif;
-  font-size: 2rem;
-  line-height: 1.1;
-  color: var(--ink);
-}
+  .rtc-topbar-user {
+    gap: 0.7rem;
+  }
 
-.rtc-kpi-detalle {
-  font-size: 0.82rem;
-  color: var(--ink-soft);
-}
+  .rtc-avatar {
+    width: 52px;
+    height: 52px;
+  }
 
-.rtc-kpi-pie {
-  margin-top: auto;
-  padding-top: 0.7rem;
-}
+  .rtc-topbar h1 {
+    font-size: 1.2rem;
+  }
 
-.rtc-kpi--alerta {
-  background: var(--surface-tint);
-  border-color: var(--magenta);
-}
+  .rtc-topbar p {
+    font-size: 0.78rem;
+  }
 
-.rtc-kpi--alerta .rtc-kpi-valor {
-  color: var(--magenta-dark);
-}
+  .rtc-kpis {
+    grid-template-columns: 1fr 1fr;
 
-.rtc-kpi--ok .rtc-kpi-valor {
-  color: var(--success);
-}
+    gap: 0.7rem;
+  }
 
-/* Botón con aspecto de enlace de texto */
-button.rtc-enlace {
-  padding: 0;
-  background: none;
-  color: var(--magenta-dark);
-  border-radius: 4px;
-  font-size: 0.85rem;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
+  .rtc-kpi {
+    min-height: 125px;
 
-button.rtc-enlace:hover {
-  background: none;
-  color: var(--magenta);
-}
+    padding: 0.9rem;
+  }
 
-/* Acciones frecuentes */
-.rtc-acciones {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 0.9rem;
-}
+  .rtc-kpi-valor {
+    font-size: 1.5rem;
+  }
 
-button.rtc-accion {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.9rem;
-  width: 100%;
-  padding: 1rem 1.1rem;
-  text-align: left;
-  background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  font-weight: 400;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
+  .rtc-acciones {
+    grid-template-columns: 1fr;
+  }
 
-button.rtc-accion:hover {
-  background: var(--surface-tint);
-  border-color: var(--magenta);
-}
-
-.rtc-accion-icono-caja {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--surface-tint);
-  color: var(--magenta-dark);
-}
-
-button.rtc-accion:hover .rtc-accion-icono-caja {
-  background: var(--surface);
-}
-
-.rtc-accion-icono {
-  width: 20px;
-  height: 20px;
-}
-
-.rtc-accion-titulo {
-  display: block;
-  font-weight: 700;
-}
-
-.rtc-accion-texto {
-  display: block;
-  margin-top: 0.15rem;
-  font-size: 0.84rem;
-  color: var(--ink-soft);
-}
-
-button.rtc-enlace:focus-visible,
-button.rtc-accion:focus-visible {
-  outline: 2px solid var(--magenta);
-  outline-offset: 2px;
-}
-
-/* Próximos eventos */
-.rtc-eventos-card {
-  margin-bottom: 0;
-}
-
-.rtc-eventos-cab {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-bottom: 0.4rem;
-}
-
-.rtc-eventos-cab h4 {
-  margin: 0;
-}
-
-.rtc-eventos {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.rtc-evento {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.85rem 0;
-  border-top: 1px solid var(--line);
-}
-
-.rtc-evento:first-child {
-  border-top: none;
-}
-
-.rtc-evento-fecha {
-  flex-shrink: 0;
-  width: 56px;
-  padding: 0.4rem 0;
-  text-align: center;
-  border-radius: 8px;
-  background: var(--surface-tint);
-  color: var(--magenta-dark);
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.1;
-}
-
-.rtc-evento-dia {
-  display: block;
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-.rtc-evento-mes {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.rtc-evento-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.rtc-evento-nombre {
-  display: block;
-  font-weight: 700;
-}
-
-.rtc-evento-detalle {
-  display: block;
-  font-size: 0.86rem;
-  color: var(--ink-soft);
-}
-
-.rtc-evento-tipo {
-  flex-shrink: 0;
-  padding: 0.15rem 0.65rem;
-  border-radius: 999px;
-  background: var(--surface-tint);
-  color: var(--magenta-dark);
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-
-.rtc-vacio p {
-  margin: 0 0 0.8rem;
-  color: var(--ink-soft);
-}
-
-@media (max-width: 480px) {
   .rtc-evento {
+    align-items: flex-start;
+
     flex-wrap: wrap;
   }
 
   .rtc-evento-tipo {
-    margin-left: 72px;
+    margin-left: 68px;
+  }
+
+  .rtc-tesoreria-resumen {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rtc-ficha-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .rtc-tabs {
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+  }
+
+  .rtc-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rtc-tab-btn {
+    flex-shrink: 0;
+
+    white-space: nowrap;
+  }
+
+  .rtc-modal-acciones {
+    flex-direction: column;
+  }
+
+  .rtc-modal-acciones button {
+    width: 100%;
+  }
+}
+
+
+/* =====================================================================
+   CELULAR PEQUEÑO
+   ===================================================================== */
+
+@media (max-width: 380px) {
+
+  .rtc-sidebar .rtc-brand {
+    display: none;
+  }
+
+  .rtc-sidebar {
+    padding: 0.55rem;
+  }
+
+  .rtc-main {
+    padding: 1rem 0.8rem 2rem;
+  }
+
+  .rtc-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .rtc-topbar h1 {
+    font-size: 1.1rem;
   }
 }
