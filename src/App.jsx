@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 import Login from './components/Login'
 import Panel from './components/Panel'
@@ -41,28 +41,14 @@ export default function App() {
     )
   }
 
-  // Páginas públicas: inicio y login, con nav simple arriba.
+  // Sin sesión, cualquier ruta pública lleva directamente al login.
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <header className="rtc-nav">
-        <Link to="/" className="rtc-brand">
-          <img
-            src={`${import.meta.env.BASE_URL}images/logo.png`}
-            alt="Rotaract Encarnación Norte"
-          />
-        </Link>
-        <nav>
-          <Link to="/">Inicio</Link>
-          <Link to="/login">Iniciar sesión</Link>
-        </nav>
-      </header>
-
-      <div className="rtc-public-content">
-        <Routes>
-          <Route path="/" element={<h1>Rotaract Encarnación Norte</h1>} />
-          <Route path="*" element={<Login onLoginExitoso={setMiembro} />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login onLoginExitoso={setMiembro} />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
     </BrowserRouter>
   )
 }

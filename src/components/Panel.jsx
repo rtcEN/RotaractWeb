@@ -44,6 +44,7 @@ export default function Panel({ miembro, onLogout }) {
     { id: 'inicio', label: 'Inicio' },
     { id: 'alta', label: 'Cargar miembro' },
     { id: 'miembros', label: 'Miembros' },
+    { id: 'tesoreria', label: 'Tesorería' },
     { id: 'asistencia', label: 'Eventos y asistencia' },
   ]
   const seccionesSocio = [
@@ -111,6 +112,9 @@ export default function Panel({ miembro, onLogout }) {
         )}
         {miembro.es_admin && seccionActiva === 'miembros' && (
           <div className="rtc-card"><ListaMiembros /></div>
+        )}
+        {miembro.es_admin && seccionActiva === 'tesoreria' && (
+          <div className="rtc-card"><Tesoreria /></div>
         )}
         {miembro.es_admin && seccionActiva === 'asistencia' && (
           <div className="rtc-card"><RegistrarAsistencia /></div>

@@ -10,7 +10,7 @@ export default function ListaMiembros() {
     const [miembros, setMiembros] = useState([])
     const [cargando, setCargando] = useState(true)
     const [mensaje, setMensaje] = useState(null)
-    const [seleccionadoId, setSeleccionadoId] = useState(null)
+    const [miembroSeleccionado, setMiembroSeleccionado] = useState(null)
     const [verFicha, setVerFicha] = useState(false)
 
     useEffect(() => {
@@ -29,42 +29,50 @@ export default function ListaMiembros() {
         setCargando(false)
     }
 
-    const seleccionado = miembros.find((m) => m.id_miembro === seleccionadoId) || null
+    async function cambiarEstado(miembro) {
+        const nuevoEstado = miembro.estado_miembro === 'A' ? 'I' : 'A'
+        const { error } = await supabase
+            .from('miembro')
+            .update({ estado_miembro: nuevoEstado })
+            .eq('id_miembro', miembro.id_miembro)
 
-    async function cambiarEstado() {
-        if (!seleccionado) return
-        const nuevoEstado = seleccionado.estado_miembro === 'A' ? 'I' : 'A'
-        const { error } = await supabase.from('miembro').update({ estado_miembro: nuevoEstado }).eq('id_miembro', seleccionado.id_miembro)
         if (error) setMensaje('Error al cambiar estado: ' + error.message)
         else cargarMiembros()
     }
 
-    async function borrarSeleccionado() {
-        if (!seleccionado) return
+    async function borrarMiembro(miembro) {
         const confirmar = window.confirm(
-            `¿Seguro que querés borrar a ${seleccionado.nombre_miembro}? Esto también borra su historial y su cuenta de acceso. No se puede deshacer.`
+            `¿Seguro que querés borrar a ${miembro.nombre_miembro}? Esto también borra su historial y su cuenta de acceso. No se puede deshacer.`
         )
         if (!confirmar) return
 
         const { data, error } = await supabase.functions.invoke('borrar-miembro', {
-            body: { id_miembro: seleccionado.id_miembro },
+            body: { id_miembro: miembro.id_miembro },
         })
+
         if (error) setMensaje('Error al borrar: ' + error.message)
         else if (data?.error) setMensaje('Error al borrar: ' + data.error)
         else {
-            setMensaje(seleccionado.nombre_miembro + ' fue eliminado, junto con su cuenta de acceso.')
-            setSeleccionadoId(null)
+            setMensaje(miembro.nombre_miembro + ' fue eliminado, junto con su cuenta de acceso.')
             cargarMiembros()
         }
     }
 
+    const abrirFicha = (miembro) => {
+        setMiembroSeleccionado(miembro)
+        setVerFicha(true)
+    }
+
     if (cargando) return <p>Cargando miembros...</p>
 
-    if (verFicha && seleccionado) {
+    if (verFicha && miembroSeleccionado) {
         return (
             <FichaMiembro
-                miembro={seleccionado}
-                onCerrar={() => setVerFicha(false)}
+                miembro={miembroSeleccionado}
+                onCerrar={() => {
+                    setVerFicha(false)
+                    setMiembroSeleccionado(null)
+                }}
                 onActualizado={cargarMiembros}
             />
         )
@@ -75,60 +83,58 @@ export default function ListaMiembros() {
             <h3>Miembros del club</h3>
             {mensaje && <p>{mensaje}</p>}
 
-            <div className="rtc-toolbar">
-                <button
-                    className="rtc-icon-btn"
-                    disabled={!seleccionado}
-                    onClick={() => setVerFicha(true)}
-                    title="Ver ficha completa"
-                >
-                    <FileText size={16} /> Ver ficha
-                </button>
-
-                <button
-                    className="rtc-icon-btn rtc-icon-btn--secundario"
-                    disabled={!seleccionado}
-                    onClick={cambiarEstado}
-                    title={seleccionado?.estado_miembro === 'A' ? 'Marcar inactivo' : 'Marcar activo'}
-                >
-                    {seleccionado?.estado_miembro === 'I' ? <RotateCcw size={16} /> : <Ban size={16} />}
-                    {seleccionado?.estado_miembro === 'I' ? ' Reactivar' : ' Desactivar'}
-                </button>
-
-                <button
-                    className="rtc-icon-btn rtc-icon-btn--peligro"
-                    disabled={!seleccionado}
-                    onClick={borrarSeleccionado}
-                    title="Borrar miembro"
-                >
-                    <Trash2 size={16} /> Borrar
-                </button>
-            </div>
-
             <table>
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Calidad</th>
                         <th>Estado</th>
+                        <th style={{ textAlign: 'center' }}>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {miembros.map((m) => (
-                        <tr
-                            key={m.id_miembro}
-                            className={m.id_miembro === seleccionadoId ? 'rtc-fila-seleccionada' : ''}
-                            onClick={() => setSeleccionadoId(m.id_miembro === seleccionadoId ? null : m.id_miembro)}
-                        >
-                            <td>
-                                <input type="radio" checked={m.id_miembro === seleccionadoId} readOnly />
-                            </td>
+                        <tr key={m.id_miembro}>
                             <td>{m.nombre_miembro}</td>
                             <td>{m.correo_miembro}</td>
-                            <td><span className={'rtc-badge rtc-badge--' + CLASE_CALIDAD[m.calidad]}>{NOMBRES_CALIDAD[m.calidad]}</span></td>
-                            <td><span className={'rtc-badge rtc-badge--' + (m.estado_miembro === 'A' ? 'activo' : 'inactivo')}>{m.estado_miembro === 'A' ? 'Activo' : 'Inactivo'}</span></td>
+                            <td>
+                                <span className={'rtc-badge rtc-badge--' + CLASE_CALIDAD[m.calidad]}>
+                                    {NOMBRES_CALIDAD[m.calidad]}
+                                </span>
+                            </td>
+                            <td>
+                                <span className={'rtc-badge rtc-badge--' + (m.estado_miembro === 'A' ? 'activo' : 'inactivo')}>
+                                    {m.estado_miembro === 'A' ? 'Activo' : 'Inactivo'}
+                                </span>
+                            </td>
+                            <td>
+                                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                                    <button
+                                        className="rtc-icon-btn"
+                                        onClick={() => abrirFicha(m)}
+                                        title="Ver ficha completa"
+                                    >
+                                        <FileText size={16} />
+                                    </button>
+
+                                    <button
+                                        className="rtc-icon-btn rtc-icon-btn--secundario"
+                                        onClick={() => cambiarEstado(m)}
+                                        title={m.estado_miembro === 'A' ? 'Desactivar' : 'Reactivar'}
+                                    >
+                                        {m.estado_miembro === 'I' ? <RotateCcw size={16} /> : <Ban size={16} />}
+                                    </button>
+
+                                    <button
+                                        className="rtc-icon-btn rtc-icon-btn--peligro"
+                                        onClick={() => borrarMiembro(m)}
+                                        title="Borrar miembro"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
