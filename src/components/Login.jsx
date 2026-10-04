@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Heart, ShieldCheck, ArrowRight } from 'lucide-react'
 import { supabase } from '../supabaseClient'
 
 export default function Login({ onLoginExitoso }) {
@@ -11,13 +11,15 @@ export default function Login({ onLoginExitoso }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
+
     setError(null)
     setCargando(true)
 
-    const { data, error: errorLogin } = await supabase.auth.signInWithPassword({
-      email: correo,
-      password: password,
-    })
+    const { data, error: errorLogin } =
+      await supabase.auth.signInWithPassword({
+        email: correo,
+        password: password,
+      })
 
     if (errorLogin) {
       setError('Correo o contraseña incorrectos')
@@ -41,44 +43,231 @@ export default function Login({ onLoginExitoso }) {
   }
 
   return (
-    <div className="rtc-auth-page">
-      <div className="rtc-auth-card">
-        <form onSubmit={handleSubmit}>
-          <h2>Iniciar sesión</h2>
+    <main className="rtc-login-page">
 
-          <label>
-            Correo
-            <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
-          </label>
+      {/* Decoraciones del fondo */}
+      <div className="rtc-login-circle rtc-login-circle-1"></div>
+      <div className="rtc-login-circle rtc-login-circle-2"></div>
+      <div className="rtc-login-circle rtc-login-circle-3"></div>
 
-          <label>
-            Contraseña
-            <div className="rtc-input-con-icono">
+      <div className="rtc-login-wrapper">
+
+        {/* ==================================================
+            PRESENTACIÓN / WOLFIE
+        ================================================== */}
+
+        <section className="rtc-login-welcome">
+
+          <div className="rtc-wolfie-container">
+            <img
+              src={`${import.meta.env.BASE_URL}images/wolfie1.png`}
+              alt="Wolfie - Mascota de Rotaract Encarnación Norte"
+            />
+          </div>
+
+          <div className="rtc-welcome-text">
+
+            <h1>
+              ¡Bienvenido/a!
+            </h1>
+
+            <p>
+              al sistema del{' '}
+              <strong>
+                Club Rotaract Encarnación Norte
+              </strong>
+            </p>
+
+            <div className="rtc-welcome-features">
+
+              <div className="rtc-welcome-feature">
+                <div className="rtc-feature-icon">
+                  <Heart size={18} />
+                </div>
+
+                <span>
+                  Servir para
+                  <br />
+                  cambiar vidas
+                </span>
+              </div>
+
+              <div className="rtc-welcome-feature">
+                <div className="rtc-feature-icon">
+                  <ShieldCheck size={18} />
+                </div>
+
+                <span>
+                  Acceso seguro
+                  <br />
+                  para miembros
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {/* ==================================================
+            LOGIN
+        ================================================== */}
+
+        <section className="rtc-login-card">
+
+          <div className="rtc-login-logo">
+            <img
+              src={`${import.meta.env.BASE_URL}images/logo.png`}
+              alt="Rotaract Encarnación Norte"
+            />
+          </div>
+
+          <div className="rtc-login-heading">
+
+            <h2>
+              Iniciar sesión
+            </h2>
+
+            <p>
+              Ingresá a tu cuenta para continuar.
+            </p>
+
+          </div>
+
+
+          <form onSubmit={handleSubmit}>
+
+            {/* CORREO */}
+
+            <div className="rtc-login-field">
+
+              <label htmlFor="correo">
+                Correo electrónico
+              </label>
+
               <input
-                type={mostrarPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                id="correo"
+                type="email"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                placeholder="ejemplo@correo.com"
+                autoComplete="email"
                 required
               />
-              <button
-                type="button"
-                className="rtc-icono-input"
-                onClick={() => setMostrarPassword((valor) => !valor)}
-                title={mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                tabIndex={-1}
-              >
-                {mostrarPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+
             </div>
-          </label>
 
-          <button type="submit" disabled={cargando}>
-            {cargando ? 'Ingresando...' : 'Ingresar'}
-          </button>
 
-          {error && <p style={{ color: '#C0335A' }}>{error}</p>}
-        </form>
+            {/* CONTRASEÑA */}
+
+            <div className="rtc-login-field">
+
+              <label htmlFor="password">
+                Contraseña
+              </label>
+
+              <div className="rtc-password-wrapper">
+
+                <input
+                  id="password"
+                  type={mostrarPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Ingresá tu contraseña"
+                  autoComplete="current-password"
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="rtc-password-toggle"
+                  onClick={() =>
+                    setMostrarPassword((valor) => !valor)
+                  }
+                  aria-label={
+                    mostrarPassword
+                      ? 'Ocultar contraseña'
+                      : 'Mostrar contraseña'
+                  }
+                >
+                  {mostrarPassword ? (
+                    <EyeOff size={19} />
+                  ) : (
+                    <Eye size={19} />
+                  )}
+                </button>
+
+              </div>
+
+            </div>
+
+
+            {/* ERROR */}
+
+            {error && (
+              <div className="rtc-login-error">
+
+                <span className="rtc-error-icon">
+                  !
+                </span>
+
+                <span>
+                  {error}
+                </span>
+
+              </div>
+            )}
+
+
+            {/* BOTÓN */}
+
+            <button
+              type="submit"
+              className="rtc-login-submit"
+              disabled={cargando}
+            >
+
+              {cargando ? (
+                <>
+                  <span className="rtc-spinner"></span>
+                  Ingresando...
+                </>
+              ) : (
+                <>
+                  Ingresar
+                  <ArrowRight size={19} />
+                </>
+              )}
+
+            </button>
+
+          </form>
+
+
+          {/* FOOTER */}
+
+          <div className="rtc-login-footer">
+
+            <span>
+              Rotaract Encarnación Norte
+            </span>
+
+            <span className="rtc-footer-dot">
+              •
+            </span>
+
+            <span>
+              Servicio, amistad y liderazgo
+            </span>
+
+          </div>
+
+        </section>
+
       </div>
-    </div>
+
+    </main>
   )
 }

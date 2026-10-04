@@ -34,7 +34,7 @@ export default function Panel({ miembro, onLogout }) {
     <div className="rtc-shell">
       <aside className="rtc-sidebar">
         <div className="rtc-brand">
-          <img src={`${import.meta.env.BASE_URL}images/logo2.png`} alt="Rotaract Encarnación Norte" />
+          <img src={`${import.meta.env.BASE_URL}images/logo.png`} alt="Rotaract Encarnación Norte" />
         </div>
 
         <nav className="rtc-sidebar-nav">
