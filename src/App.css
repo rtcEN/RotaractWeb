@@ -554,3 +554,249 @@ table button {
   background: var(--line);
   color: var(--ink-soft);
 }
+
+/* ---------------------------------------------------------------------
+   Inicio del administrador
+   --------------------------------------------------------------------- */
+.rtc-inicio-admin {
+  display: grid;
+  gap: 1.8rem;
+}
+
+.rtc-inicio-admin h4 {
+  margin: 0 0 0.8rem;
+}
+
+/* Tarjetas de resumen */
+.rtc-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.9rem;
+}
+
+.rtc-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.rtc-kpi-titulo {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.rtc-kpi-valor {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.rtc-kpi-detalle {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.rtc-kpi-pie {
+  margin-top: auto;
+  padding-top: 0.7rem;
+}
+
+.rtc-kpi--alerta {
+  background: var(--surface-tint);
+  border-color: var(--magenta);
+}
+
+.rtc-kpi--alerta .rtc-kpi-valor {
+  color: var(--magenta-dark);
+}
+
+.rtc-kpi--ok .rtc-kpi-valor {
+  color: var(--success);
+}
+
+/* Botón con aspecto de enlace de texto */
+button.rtc-enlace {
+  padding: 0;
+  background: none;
+  color: var(--magenta-dark);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+button.rtc-enlace:hover {
+  background: none;
+  color: var(--magenta);
+}
+
+/* Acciones frecuentes */
+.rtc-acciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.9rem;
+}
+
+button.rtc-accion {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 1rem 1.1rem;
+  text-align: left;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-weight: 400;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+button.rtc-accion:hover {
+  background: var(--surface-tint);
+  border-color: var(--magenta);
+}
+
+.rtc-accion-icono-caja {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-tint);
+  color: var(--magenta-dark);
+}
+
+button.rtc-accion:hover .rtc-accion-icono-caja {
+  background: var(--surface);
+}
+
+.rtc-accion-icono {
+  width: 20px;
+  height: 20px;
+}
+
+.rtc-accion-titulo {
+  display: block;
+  font-weight: 700;
+}
+
+.rtc-accion-texto {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+}
+
+button.rtc-enlace:focus-visible,
+button.rtc-accion:focus-visible {
+  outline: 2px solid var(--magenta);
+  outline-offset: 2px;
+}
+
+/* Próximos eventos */
+.rtc-eventos-card {
+  margin-bottom: 0;
+}
+
+.rtc-eventos-cab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.rtc-eventos-cab h4 {
+  margin: 0;
+}
+
+.rtc-eventos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rtc-evento {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.rtc-evento:first-child {
+  border-top: none;
+}
+
+.rtc-evento-fecha {
+  flex-shrink: 0;
+  width: 56px;
+  padding: 0.4rem 0;
+  text-align: center;
+  border-radius: 8px;
+  background: var(--surface-tint);
+  color: var(--magenta-dark);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.1;
+}
+
+.rtc-evento-dia {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.rtc-evento-mes {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.rtc-evento-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rtc-evento-nombre {
+  display: block;
+  font-weight: 700;
+}
+
+.rtc-evento-detalle {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.rtc-evento-tipo {
+  flex-shrink: 0;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  background: var(--surface-tint);
+  color: var(--magenta-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.rtc-vacio p {
+  margin: 0 0 0.8rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 480px) {
+  .rtc-evento {
+    flex-wrap: wrap;
+  }
+
+  .rtc-evento-tipo {
+    margin-left: 72px;
+  }
+}

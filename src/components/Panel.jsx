@@ -7,6 +7,7 @@ import MiResumen from './Miresumen'
 import MisCuotas from './Miscuotas'
 import MiAsistencia from './Miasistencia'
 import MisPrestamos from './Misprestamos'
+import InicioAdmin from './InicioAdmin'
 
 const NOMBRES_CALIDAD = { A: 'Aspirante', S: 'Socio', H: 'Honorario' }
 
@@ -93,21 +94,16 @@ export default function Panel({ miembro, onLogout }) {
             </div>
           </div>
         </div>
-        {/*   <div className="rtc-topbar">
-          <div>
-            <h1>Hola, {miembro.nombre_miembro}</h1>
-            <p>
-              {NOMBRES_CALIDAD[miembro.calidad]} · {miembro.estado_miembro === 'A' ? 'Activo' : 'Inactivo'}
-              {miembro.es_admin ? ' · Administrador' : ''}
-            </p>
-          </div>
-        </div>
-*/}
+
         {seccionActiva === 'inicio' && (
-          <div className="rtc-card">
-            <p>Correo: {miembro.correo_miembro}</p>
-            {!miembro.es_admin && <MiResumen miembro={miembro} />}
-          </div>
+          miembro.es_admin
+            ? <InicioAdmin onIrA={setSeccionActiva} />
+            : (
+              <div className="rtc-card">
+                <p>Correo: {miembro.correo_miembro}</p>
+                <MiResumen miembro={miembro} />
+              </div>
+            )
         )}
 
         {miembro.es_admin && seccionActiva === 'alta' && (
