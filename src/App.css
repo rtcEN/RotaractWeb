@@ -490,258 +490,1111 @@ table button { margin-right: 0.4rem; }
 .rtc-badge--activo,
 .rtc-badge--socio { background: var(--success-bg); color: var(--success); }
 .rtc-badge--aspirante,
-.rtc-badge--pendiente {
-  background: var(--warning-bg);
-  color: var(--warning);
+.rtc-badge--pendiente { background: var(--warning-bg); color: var(--warning); }
+.rtc-badge--inactivo { background: var(--line); color: var(--ink-soft); }
+
+/* ================================================================
+   LOGIN — ROTARACT ENCARNACIÓN NORTE
+   Diseño UX/UI con Wolfie
+   ================================================================ */
+
+.rtc-login-page {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(227, 28, 121, 0.10),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(180, 138, 230, 0.15),
+      transparent 30%
+    ),
+    #fffafd;
+
+  padding: 2rem;
 }
 
-.rtc-badge--inactivo {
-  background: var(--line);
-  color: var(--ink-soft);
+
+/* ================================================================
+   DECORACIONES
+   ================================================================ */
+
+.rtc-login-decoration {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* ---------------------------------------------------------------------
-   Inicio del administrador
-   --------------------------------------------------------------------- */
-.rtc-inicio-admin {
+.rtc-login-decoration-1 {
+  width: 280px;
+  height: 280px;
+
+  background: rgba(227, 28, 121, 0.06);
+
+  top: -120px;
+  left: -100px;
+}
+
+.rtc-login-decoration-2 {
+  width: 360px;
+  height: 360px;
+
+  background: rgba(180, 138, 230, 0.08);
+
+  bottom: -180px;
+  right: -120px;
+}
+
+
+/* ================================================================
+   CONTENEDOR PRINCIPAL
+   ================================================================ */
+
+.rtc-login-container {
+  width: 100%;
+  max-width: 1050px;
+
+  min-height: 620px;
+
   display: grid;
-  gap: 1.8rem;
+  grid-template-columns: 1fr 0.85fr;
+
+  position: relative;
+  z-index: 1;
+
+  background: rgba(255, 255, 255, 0.90);
+
+  border: 1px solid rgba(240, 215, 228, 0.9);
+
+  border-radius: 32px;
+
+  box-shadow:
+    0 25px 70px rgba(43, 27, 46, 0.10),
+    0 8px 25px rgba(227, 28, 121, 0.06);
+
+  overflow: hidden;
 }
 
-.rtc-inicio-admin h4 {
-  margin: 0 0 0.8rem;
-}
 
-/* Tarjetas de resumen */
-.rtc-kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 0.9rem;
-}
+/* ================================================================
+   LADO DE WOLFIE
+   ================================================================ */
 
-.rtc-kpi {
+.rtc-login-wolfie {
+  position: relative;
+
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 1.1rem 1.2rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 2rem 3rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff5fa 0%,
+      #fce9f1 55%,
+      #f6eafb 100%
+    );
 }
 
-.rtc-kpi-titulo {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
 
-.rtc-kpi-valor {
+/* ================================================================
+   GLOBITO DE WOLFIE
+   ================================================================ */
+
+.rtc-wolfie-bubble {
+  position: absolute;
+
+  top: 55px;
+  right: 70px;
+
+  background: white;
+
+  color: var(--magenta-dark);
+
+  padding: 0.65rem 1.1rem;
+
+  border-radius: 18px 18px 18px 4px;
+
   font-family: 'Poppins', sans-serif;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  box-shadow: 0 8px 20px rgba(43, 27, 46, 0.10);
+
+  animation: rtc-wolfie-float 3s ease-in-out infinite;
+}
+
+.rtc-wolfie-bubble::after {
+  content: '';
+
+  position: absolute;
+
+  bottom: -7px;
+  left: 15px;
+
+  width: 14px;
+  height: 14px;
+
+  background: white;
+
+  transform: rotate(45deg);
+}
+
+
+/* ================================================================
+   WOLFIE
+   ================================================================ */
+
+.rtc-wolfie-image {
+  width: 330px;
+  height: 330px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  margin-bottom: -5px;
+}
+
+.rtc-wolfie-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  filter: drop-shadow(
+    0 18px 18px rgba(43, 27, 46, 0.13)
+  );
+
+  animation: rtc-wolfie-float 4s ease-in-out infinite;
+}
+
+
+/* ================================================================
+   TEXTO WOLFIE
+   ================================================================ */
+
+.rtc-wolfie-text {
+  max-width: 480px;
+}
+
+.rtc-wolfie-text h1 {
   font-size: 2rem;
-  line-height: 1.1;
+
+  margin: 0 0 0.7rem;
+
   color: var(--ink);
 }
 
-.rtc-kpi-detalle {
-  font-size: 0.82rem;
-  color: var(--ink-soft);
-}
-
-.rtc-kpi-pie {
-  margin-top: auto;
-  padding-top: 0.7rem;
-}
-
-.rtc-kpi--alerta {
-  background: var(--surface-tint);
-  border-color: var(--magenta);
-}
-
-.rtc-kpi--alerta .rtc-kpi-valor {
-  color: var(--magenta-dark);
-}
-
-.rtc-kpi--ok .rtc-kpi-valor {
-  color: var(--success);
-}
-
-/* Botón con aspecto de enlace de texto */
-button.rtc-enlace {
-  padding: 0;
-  background: none;
-  color: var(--magenta-dark);
-  border-radius: 4px;
-  font-size: 0.85rem;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-button.rtc-enlace:hover {
-  background: none;
+.rtc-wolfie-text h1 span {
   color: var(--magenta);
 }
 
-/* Acciones frecuentes */
-.rtc-acciones {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 0.9rem;
+.rtc-wolfie-text > p {
+  font-size: 1rem;
+  line-height: 1.6;
+
+  color: var(--ink-soft);
+
+  margin-bottom: 1.2rem;
 }
 
-button.rtc-accion {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.9rem;
-  width: 100%;
-  padding: 1rem 1.1rem;
-  text-align: left;
-  background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  font-weight: 400;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
-
-button.rtc-accion:hover {
-  background: var(--surface-tint);
-  border-color: var(--magenta);
-}
-
-.rtc-accion-icono-caja {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--surface-tint);
+.rtc-wolfie-text strong {
   color: var(--magenta-dark);
 }
 
-button.rtc-accion:hover .rtc-accion-icono-caja {
-  background: var(--surface);
-}
 
-.rtc-accion-icono {
-  width: 20px;
-  height: 20px;
-}
+/* ================================================================
+   MINI INFORMACIÓN
+   ================================================================ */
 
-.rtc-accion-titulo {
-  display: block;
-  font-weight: 700;
-}
-
-.rtc-accion-texto {
-  display: block;
-  margin-top: 0.15rem;
-  font-size: 0.84rem;
-  color: var(--ink-soft);
-}
-
-button.rtc-enlace:focus-visible,
-button.rtc-accion:focus-visible {
-  outline: 2px solid var(--magenta);
-  outline-offset: 2px;
-}
-
-/* Próximos eventos */
-.rtc-eventos-card {
-  margin-bottom: 0;
-}
-
-.rtc-eventos-cab {
+.rtc-login-mini-info {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
+
   gap: 0.8rem;
-  margin-bottom: 0.4rem;
 }
 
-.rtc-eventos-cab h4 {
-  margin: 0;
-}
-
-.rtc-eventos {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.rtc-evento {
+.rtc-login-mini-info div {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.85rem 0;
-  border-top: 1px solid var(--line);
-}
+  gap: 0.4rem;
 
-.rtc-evento:first-child {
-  border-top: none;
-}
-
-.rtc-evento-fecha {
-  flex-shrink: 0;
-  width: 56px;
-  padding: 0.4rem 0;
-  text-align: center;
-  border-radius: 8px;
-  background: var(--surface-tint);
-  color: var(--magenta-dark);
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.1;
-}
-
-.rtc-evento-dia {
-  display: block;
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-.rtc-evento-mes {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.rtc-evento-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.rtc-evento-nombre {
-  display: block;
-  font-weight: 700;
-}
-
-.rtc-evento-detalle {
-  display: block;
-  font-size: 0.86rem;
   color: var(--ink-soft);
-}
 
-.rtc-evento-tipo {
-  flex-shrink: 0;
-  padding: 0.15rem 0.65rem;
-  border-radius: 999px;
-  background: var(--surface-tint);
-  color: var(--magenta-dark);
   font-size: 0.78rem;
   font-weight: 600;
 }
 
-.rtc-vacio p {
-  margin: 0 0 0.8rem;
+.rtc-login-mini-info svg {
+  color: var(--magenta);
+}
+
+
+/* ================================================================
+   TARJETA LOGIN
+   ================================================================ */
+
+.rtc-login-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 3rem 3.5rem;
+
+  background: white;
+}
+
+
+/* ================================================================
+   HEADER LOGIN
+   ================================================================ */
+
+.rtc-login-header {
+  margin-bottom: 2rem;
+}
+
+.rtc-login-logo {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--surface-tint);
+
+  border-radius: 18px;
+
+  margin-bottom: 1.3rem;
+}
+
+.rtc-login-logo img {
+  width: 42px;
+  height: 42px;
+
+  object-fit: contain;
+}
+
+.rtc-login-header h2 {
+  font-size: 1.8rem;
+
+  margin-bottom: 0.35rem;
+}
+
+.rtc-login-header p {
+  font-size: 0.92rem;
+
   color: var(--ink-soft);
 }
 
-@media (max-width: 480px) {
-  .rtc-evento {
-    flex-wrap: wrap;
+/* ================================================================
+   LOGIN — ROTARACT ENCARNACIÓN NORTE
+   ================================================================ */
+
+.rtc-login-page {
+  min-height: 100vh;
+  width: 100%;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 10% 15%,
+      rgba(227, 28, 121, 0.10),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 85%,
+      rgba(180, 138, 230, 0.14),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #fff9fc 0%,
+      #fdf5fb 50%,
+      #f8f2ff 100%
+    );
+
+  padding: 2rem;
+}
+
+
+/* ================================================================
+   DECORACIONES
+   ================================================================ */
+
+.rtc-login-circle {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+.rtc-login-circle-1 {
+  width: 300px;
+  height: 300px;
+
+  background: rgba(227, 28, 121, 0.055);
+
+  top: -150px;
+  left: -80px;
+}
+
+.rtc-login-circle-2 {
+  width: 420px;
+  height: 420px;
+
+  background: rgba(180, 138, 230, 0.07);
+
+  bottom: -250px;
+  right: -140px;
+}
+
+.rtc-login-circle-3 {
+  width: 120px;
+  height: 120px;
+
+  border: 2px solid rgba(227, 28, 121, 0.08);
+
+  top: 15%;
+  right: 7%;
+}
+
+
+/* ================================================================
+   CONTENEDOR
+   ================================================================ */
+
+.rtc-login-wrapper {
+  width: 100%;
+  max-width: 1040px;
+
+  min-height: 590px;
+
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+
+  grid-template-columns: 1fr 430px;
+
+  align-items: center;
+
+  gap: 3rem;
+}
+
+
+/* ================================================================
+   LADO WOLFIE
+   ================================================================ */
+
+.rtc-login-welcome {
+  position: relative;
+
+  min-height: 560px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 1rem;
+}
+
+
+/* ================================================================
+   GLOBITO
+   ================================================================ */
+
+.rtc-wolfie-speech {
+  position: absolute;
+
+  top: 20px;
+  right: 95px;
+
+  background: white;
+
+  color: var(--magenta-dark);
+
+  padding: 0.65rem 1rem;
+
+  border-radius: 18px;
+
+  font-family: 'Poppins', sans-serif;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  box-shadow:
+    0 8px 25px rgba(43, 27, 46, 0.08);
+
+  animation: rtc-wolfie-speech 3s ease-in-out infinite;
+
+  z-index: 3;
+}
+
+.rtc-wolfie-speech::after {
+  content: '';
+
+  position: absolute;
+
+  bottom: -6px;
+  left: 22px;
+
+  width: 12px;
+  height: 12px;
+
+  background: white;
+
+  transform: rotate(45deg);
+}
+
+
+/* ================================================================
+   WOLFIE
+   ================================================================ */
+
+.rtc-wolfie-container {
+  width: 390px;
+  height: 390px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: -10px;
+}
+
+.rtc-wolfie-container img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 18px 18px rgba(43, 27, 46, 0.13)
+    );
+
+}
+
+
+/* ================================================================
+   TEXTO DE BIENVENIDA
+   ================================================================ */
+
+.rtc-welcome-text {
+  margin-top: -5px;
+}
+
+.rtc-welcome-text h1 {
+  margin: 0 0 0.35rem;
+
+  font-size: 2.25rem;
+
+  color: var(--ink);
+
+  letter-spacing: -0.7px;
+}
+
+.rtc-welcome-text p {
+  margin: 0;
+
+  color: var(--ink-soft);
+
+  font-size: 1rem;
+
+  line-height: 1.5;
+}
+
+.rtc-welcome-text strong {
+  color: var(--magenta-dark);
+
+  font-weight: 800;
+}
+
+
+/* ================================================================
+   CARACTERÍSTICAS
+   ================================================================ */
+
+.rtc-welcome-features {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 2rem;
+
+  margin-top: 1.5rem;
+}
+
+.rtc-welcome-feature {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.55rem;
+
+  color: var(--ink-soft);
+
+  font-size: 0.78rem;
+
+  text-align: left;
+
+  line-height: 1.25;
+}
+
+.rtc-feature-icon {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: rgba(227, 28, 121, 0.08);
+
+  color: var(--magenta);
+}
+
+
+/* ================================================================
+   TARJETA DE LOGIN
+   ================================================================ */
+
+.rtc-login-card {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 2.8rem 2.7rem;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid rgba(240, 215, 228, 0.9);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 25px 60px rgba(43, 27, 46, 0.08),
+    0 8px 25px rgba(227, 28, 121, 0.04);
+}
+
+
+/* ================================================================
+   LOGO DEL LOGIN
+   ================================================================ */
+
+.rtc-login-logo {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 0 1.8rem 0;
+
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.rtc-login-logo img {
+  width: 170px;
+  height: 170px;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* ================================================================
+   TÍTULO
+   ================================================================ */
+
+.rtc-login-heading {
+  margin-bottom: 2rem;
+}
+
+.rtc-login-heading h2 {
+  margin: 0 0 0.35rem;
+
+  font-family: 'Poppins', sans-serif;
+
+  font-size: 1.8rem;
+
+  letter-spacing: -0.4px;
+
+  color: var(--ink);
+}
+
+.rtc-login-heading p {
+  margin: 0;
+
+  font-size: 0.92rem;
+
+  color: var(--ink-soft);
+}
+
+
+/* ================================================================
+   FORMULARIO
+   ================================================================ */
+
+.rtc-login-card form {
+  width: 100%;
+  max-width: none;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.2rem;
+}
+
+
+/* ================================================================
+   CAMPOS
+   ================================================================ */
+
+.rtc-login-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.45rem;
+}
+
+.rtc-login-field label {
+  display: block;
+
+  font-family: 'Nunito', sans-serif;
+
+  font-size: 0.86rem;
+
+  font-weight: 700;
+
+  color: var(--ink);
+
+  margin: 0;
+}
+
+
+/* ================================================================
+   INPUT
+   ================================================================ */
+
+.rtc-login-field input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  height: 54px;
+
+  padding: 0 1rem;
+
+  border: 1.5px solid #ead8e2;
+
+  border-radius: 13px;
+
+  background: #fffafd;
+
+  color: var(--ink);
+
+  font-family: 'Nunito', sans-serif;
+
+  font-size: 0.94rem;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.rtc-login-field input::placeholder {
+  color: #afa5b1;
+}
+
+.rtc-login-field input:hover {
+  border-color: #d9bfd0;
+}
+
+.rtc-login-field input:focus {
+  outline: none;
+
+  background: white;
+
+  border-color: var(--magenta);
+
+  box-shadow:
+    0 0 0 4px rgba(227, 28, 121, 0.08);
+}
+
+
+/* ================================================================
+   CONTRASEÑA
+   ================================================================ */
+
+.rtc-password-wrapper {
+  position: relative;
+}
+
+.rtc-password-wrapper input {
+  padding-right: 3.2rem;
+}
+
+.rtc-password-toggle {
+  position: absolute;
+
+  top: 50%;
+  right: 0.65rem;
+
+  transform: translateY(-50%);
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #7d7180;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+}
+
+.rtc-password-toggle:hover {
+  background: #fce9f1;
+
+  color: var(--magenta);
+}
+
+
+/* ================================================================
+   MENSAJE DE ERROR
+   ================================================================ */
+
+.rtc-login-error {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.65rem;
+
+  padding: 0.75rem 0.9rem;
+
+  background: #fff1f4;
+
+  border: 1px solid #f3ccd8;
+
+  border-radius: 11px;
+
+  color: #b12e55;
+
+  font-size: 0.82rem;
+
+  font-weight: 700;
+}
+
+.rtc-error-icon {
+  width: 20px;
+  height: 20px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e95d82;
+
+  color: white;
+
+  font-size: 0.75rem;
+}
+
+
+/* ================================================================
+   BOTÓN INGRESAR
+   ================================================================ */
+
+.rtc-login-submit {
+  width: 100%;
+
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.55rem;
+
+  margin-top: 0.15rem;
+
+  border: none;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e31c79,
+      #b80f5b
+    );
+
+  color: white;
+
+  font-family: 'Poppins', sans-serif;
+
+  font-size: 0.92rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 9px 20px rgba(227, 28, 121, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.rtc-login-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 13px 25px rgba(227, 28, 121, 0.28);
+
+  background:
+    linear-gradient(
+      135deg,
+      #d81870,
+      #a80d52
+    );
+}
+
+.rtc-login-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.rtc-login-submit:disabled {
+  opacity: 0.75;
+
+  cursor: not-allowed;
+}
+
+
+/* ================================================================
+   SPINNER
+   ================================================================ */
+
+.rtc-spinner {
+  width: 17px;
+  height: 17px;
+
+  border: 2px solid rgba(255, 255, 255, 0.35);
+
+  border-top-color: white;
+
+  border-radius: 50%;
+
+  animation: rtc-spinner 0.7s linear infinite;
+}
+
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+
+.rtc-login-footer {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 0.45rem;
+
+  margin-top: 1.8rem;
+
+  color: #aaa0aa;
+
+  font-size: 0.7rem;
+
+  text-align: center;
+}
+
+.rtc-footer-dot {
+  color: #d4a6bd;
+}
+
+
+/* ================================================================
+   TABLET
+   ================================================================ */
+
+@media (max-width: 850px) {
+
+  .rtc-login-page {
+    padding: 1.5rem;
   }
 
-  .rtc-evento-tipo {
-    margin-left: 72px;
+  .rtc-login-wrapper {
+    grid-template-columns: 1fr;
+
+    max-width: 500px;
+
+    gap: 1rem;
+  }
+
+  .rtc-login-welcome {
+    min-height: auto;
+
+    padding: 1rem 1rem 0;
+  }
+
+  .rtc-wolfie-container {
+    width: 250px;
+    height: 250px;
+  }
+
+  .rtc-wolfie-speech {
+    top: 0;
+    right: 70px;
+  }
+
+  .rtc-welcome-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .rtc-login-card {
+    padding: 2.3rem 2rem;
+  }
+}
+
+
+/* ================================================================
+   CELULAR
+   ================================================================ */
+
+@media (max-width: 520px) {
+
+  .rtc-login-page {
+    padding: 0.8rem;
+  }
+
+  .rtc-login-wrapper {
+    gap: 0.5rem;
+  }
+
+  .rtc-login-welcome {
+    padding-top: 0.5rem;
+  }
+
+  .rtc-wolfie-container {
+    width: 210px;
+    height: 210px;
+
+    margin-top: 10px;
+  }
+
+  .rtc-wolfie-speech {
+    top: -2px;
+    right: 25px;
+
+    font-size: 0.78rem;
+
+    padding: 0.5rem 0.8rem;
+  }
+
+  .rtc-welcome-text h1 {
+    font-size: 1.55rem;
+  }
+
+  .rtc-welcome-text p {
+    font-size: 0.88rem;
+  }
+
+  .rtc-welcome-features {
+    gap: 1rem;
+  }
+
+  .rtc-welcome-feature {
+    font-size: 0.7rem;
+  }
+
+  .rtc-feature-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .rtc-login-card {
+    padding: 1.8rem 1.3rem;
+
+    border-radius: 22px;
+  }
+
+  .rtc-login-logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .rtc-login-heading {
+    margin-bottom: 1.5rem;
+  }
+
+  .rtc-login-heading h2 {
+    font-size: 1.5rem;
+  }
+
+  .rtc-login-footer {
+    font-size: 0.65rem;
   }
 }
