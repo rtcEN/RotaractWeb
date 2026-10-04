@@ -8,6 +8,7 @@ import MisCuotas from './Miscuotas'
 import MiAsistencia from './Miasistencia'
 import MisPrestamos from './Misprestamos'
 import InicioAdmin from './InicioAdmin'
+import Tesoreria from './Tesoreria'
 
 const NOMBRES_CALIDAD = { A: 'Aspirante', S: 'Socio', H: 'Honorario' }
 
